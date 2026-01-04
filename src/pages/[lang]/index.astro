@@ -1,0 +1,40 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import { getEntry } from 'astro:content';
+
+export function getStaticPaths() {
+  return [
+    { params: { lang: 'en' } },
+    { params: { lang: 'he' } },
+    { params: { lang: 'ar' } },
+  ];
+}
+
+const { lang } = Astro.params;
+const bio = await getEntry('bio', lang as "en" | "he" | "ar");
+
+const { Content } = await bio.render();
+const { title, role, image, backgroundImage } = bio.data;
+---
+
+<Layout title={title} lang={lang} backgroundImage={backgroundImage}>
+  <div class="lg:grid lg:grid-cols-12 lg:gap-8 mt-8">
+      <div class="lg:col-span-3">
+        {image && (
+            <div class="aspect-w-3 aspect-h-4 rounded-lg overflow-hidden shadow-lg max-w-xs mx-auto lg:max-w-none">
+                 <img src={image} alt={title} class="w-full h-full object-cover" />
+            </div>
+        )}
+         <div class="mt-6">
+             <h1 class="text-3xl font-extrabold text-[#000040] sm:text-4xl">{title}</h1>
+             <p class="mt-2 text-xl text-indigo-600 font-medium">{role}</p>
+         </div>
+      </div>
+      <div class="lg:col-span-8 mt-8 lg:mt-0">
+          <div class="prose prose-indigo prose-lg text-gray-800 mx-auto lg:max-w-none leading-[1.75]">
+            <Content />
+          </div>
+      </div>
+    </div>
+</Layout>

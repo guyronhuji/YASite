@@ -1,0 +1,34 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import { getCollection } from 'astro:content';
+
+export function getStaticPaths() {
+  return [
+    { params: { lang: 'en' } },
+    { params: { lang: 'he' } },
+    { params: { lang: 'ar' } },
+  ];
+}
+
+const { lang } = Astro.params;
+const cvItems = await getCollection('cv', ({ id }) => id.startsWith(lang + '/'));
+const cvItem = cvItems[0]; // Assuming one CV per language
+
+const { Content } = cvItem ? await cvItem.render() : { Content: null };
+const title = cvItem?.data.title || "Curriculum Vitae";
+---
+
+<Layout title={title} lang={lang} backgroundImage={cvItem?.data.backgroundImage}>
+  <main class="py-12 px-4 sm:px-6 lg:px-8">
+    <div class="prose prose-lg max-w-none text-gray-800 font-serif leading-[1.75]
+        prose-headings:font-serif prose-headings:text-gray-900 
+        prose-h1:text-4xl prose-h1:font-bold prose-h1:mb-8
+        prose-h2:text-3xl prose-h2:font-bold prose-h2:border-b prose-h2:border-gray-200 prose-h2:pb-2 prose-h2:mt-10 prose-h2:mb-6
+        prose-h3:text-2xl prose-h3:font-bold prose-h3:mt-8 prose-h3:mb-4
+        prose-p:leading-[1.75] prose-a:text-indigo-600 prose-a:no-underline hover:prose-a:underline">
+        <h1 class="text-4xl font-bold text-[#000040] mb-8 pb-4 border-b border-gray-200">{title}</h1>
+        {Content ? <Content /> : <p>CV content not available yet.</p>}
+    </div>
+  </main>
+</Layout>

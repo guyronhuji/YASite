@@ -1,0 +1,87 @@
+fragment BioParts on Bio {
+  __typename
+  title
+  role
+  image
+  backgroundImage
+  email
+  address
+  social {
+    __typename
+    label
+    url
+  }
+  body
+}
+
+fragment ResearchParts on Research {
+  __typename
+  title
+  description
+  date
+  order
+  image
+  backgroundImage
+  body
+}
+
+fragment ActivismParts on Activism {
+  __typename
+  title
+  description
+  date
+  order
+  image
+  backgroundImage
+  body
+}
+
+fragment OutreachParts on Outreach {
+  __typename
+  title
+  description
+  date
+  order
+  image
+  backgroundImage
+  body
+}
+
+fragment ServicesParts on Services {
+  __typename
+  title
+  description
+  date
+  order
+  image
+  backgroundImage
+  body
+}
+
+fragment ContactParts on Contact {
+  __typename
+  title
+  backgroundImage
+}
+
+fragment CvParts on Cv {
+  __typename
+  title
+  description
+  date
+  order
+  image
+  backgroundImage
+  body
+}
+
+fragment PublicationsParts on Publications {
+  __typename
+  title
+  venue
+  year
+  url
+  backgroundImage
+  authors
+  body
+}

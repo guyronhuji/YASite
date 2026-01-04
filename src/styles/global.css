@@ -1,0 +1,27 @@
+@import "tailwindcss";
+@plugin "daisyui";
+@plugin "@tailwindcss/typography";
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Nunito:wght@400;700;800&display=swap');
+
+@theme {
+    --color-primary: #000040;
+    --color-secondary: #97B4D6;
+    --color-accent: #4A90E2;
+    --color-bg-subtle: #F4F9FC;
+    --font-sans: 'Inter', system-ui, sans-serif;
+    /* Using Nunito for headers to match Astro Academia modern look */
+    --font-serif: 'Nunito', system-ui, sans-serif;
+
+    /* Typography Upgrades */
+    --color-text-base: #1f2937;
+    /* Gray-800 */
+    --leading-base: 1.75;
+}
+
+@layer base {
+    body {
+        color: var(--color-text-base);
+        line-height: var(--leading-base);
+    }
+}

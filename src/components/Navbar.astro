@@ -1,0 +1,92 @@
+---
+const { lang } = Astro.props;
+
+const t = {
+  en: {
+    bio: 'Bio',
+    cv: 'CV',
+    research: 'Research',
+    activism: 'Activism',
+    outreach: 'Outreach',
+    publications: 'Publications',
+    services: 'Services',
+    contact: 'Contact',
+  },
+  he: {
+    bio: 'אודות',
+    cv: 'קורות חיים',
+    research: 'מחקר',
+    activism: 'אקטיביזם',
+    outreach: 'מעורבות ציבורית',
+    publications: 'פרסומים',
+    services: 'שירותי מחקר',
+    contact: 'צרו קשר',
+  },
+  ar: {
+    bio: 'نبذة',
+    cv: 'السيرة الذاتية',
+    research: 'الأبحاث',
+    activism: 'النشاط',
+    outreach: 'التوعية',
+    publications: 'المنشورات',
+    services: 'الخدمات',
+    contact: 'اتصل بنا',
+  }
+};
+
+const labels = t[lang] || t.en;
+
+const links = [
+  { href: `/${lang}`, label: labels.bio },
+  { href: `/${lang}/cv`, label: labels.cv },
+  { href: `/${lang}/research`, label: labels.research },
+  { href: `/${lang}/activism`, label: labels.activism },
+  { href: `/${lang}/outreach`, label: labels.outreach },
+  { href: `/${lang}/publications`, label: labels.publications },
+  { href: `/${lang}/services`, label: labels.services },
+  { href: `/${lang}/contact`, label: labels.contact },
+];
+
+const locales = [
+    { code: 'en', label: 'English' },
+    { code: 'he', label: 'עברית' },
+    { code: 'ar', label: 'العربية' }
+];
+---
+
+<nav class="bg-white border-b border-gray-200 sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between h-16">
+      <div class="flex">
+        <a href={`/${lang}`} class="flex-shrink-0 flex items-center font-bold text-xl text-indigo-600">
+          Academic Name
+        </a>
+        <div class="hidden md:ml-6 md:flex md:space-x-8 rtl:space-x-reverse">
+          {links.map(link => (
+            <a href={link.href} class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 transition-colors">
+              {link.label}
+            </a>
+          ))}
+        </div>
+      </div>
+      <div class="flex items-center space-x-4 rtl:space-x-reverse">
+        {locales.map(locale => (
+            <a href={`/${locale.code}`} class={`text-sm font-medium ${lang === locale.code ? 'text-indigo-600 font-bold' : 'text-gray-500 hover:text-gray-700'}`}>
+                {locale.label}
+            </a>
+        ))}
+      </div>
+       <!-- Mobile menu button placeholder -->
+       <div class="-mr-2 flex items-center md:hidden">
+          <button type="button" class="bg-white inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            <span class="sr-only">Open main menu</span>
+            <!-- Heroicon name: menu -->
+            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        </div>
+    </div>
+  </div>
+  <!-- Mobile Menu (Hidden by default, need JS to toggle) -->
+</nav>

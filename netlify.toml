@@ -1,0 +1,11 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[context.production.environment]
+  TINA_PUBLIC_IS_LOCAL = "false"
+
+[[redirects]]
+  from = "/admin"
+  to = "/admin/index.html"
+  status = 200

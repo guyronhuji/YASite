@@ -1,0 +1,99 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+
+export function getStaticPaths() {
+  return [
+    { params: { lang: 'en' } },
+    { params: { lang: 'he' } },
+    { params: { lang: 'ar' } },
+  ];
+}
+
+const { lang } = Astro.params;
+import { getEntry, getCollection } from 'astro:content';
+
+const allContacts = await getCollection('contact');
+const contact = allContacts.find(c => c.slug === lang || c.slug === `${lang}/index` || c.id === `${lang}/index.md`);
+const bio = await getEntry('bio', lang as any);
+
+const { email, social } = bio?.data || {};
+const title = contact?.data?.title || (lang === 'he' ? 'צרו קשר' : lang === 'ar' ? 'اتصل بنا' : 'Contact');
+const backgroundImage = contact?.data?.backgroundImage;
+
+const labels = {
+    en: { email: "Email", social: "Social Media", getInTouch: "Get in Touch" },
+    he: { email: "אימייל", social: "רשתות חברתיות", getInTouch: "צרו קשר" },
+    ar: { email: "البريد الإلكتروني", social: "وسائل التواصل الاجتماعي", getInTouch: "تواصل معنا" }
+};
+const t = labels[lang] || labels.en;
+---
+
+<Layout title={title} lang={lang} backgroundImage={backgroundImage}>
+  <main class="py-12 px-4 sm:px-6 lg:px-8">
+     <div class="max-w-3xl mx-auto">
+        <h1 class="text-3xl font-extrabold text-[#000040] mb-8 pb-4 border-b border-gray-200 font-serif">{title}</h1>
+        
+        <div class="bg-white shadow rounded-lg overflow-hidden">
+            <div class="p-8">
+                <h2 class="text-2xl font-bold text-gray-900 mb-6">{t.getInTouch}</h2>
+                
+                <div class="space-y-6">
+                    {/* Email Section */}
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0">
+                            <svg class="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-lg font-medium text-gray-900">{t.email}</p>
+                            <a href={`mailto:${email || 'contact@example.com'}`} class="mt-1 text-lg text-primary hover:underline block">
+                                {email || 'contact@example.com'}
+                            </a>
+                        </div>
+                    </div>
+
+                    {/* Address Section */}
+                    {bio?.data.address && (
+                        <div class="flex items-start pt-6 border-t border-gray-100">
+                            <div class="flex-shrink-0">
+                                <svg class="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-lg font-medium text-gray-900">Address</p>
+                                <p class="mt-1 text-lg text-gray-600 whitespace-pre-line">{bio.data.address}</p>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Social Section */}
+                    {social && social.length > 0 && (
+                        <div class="flex items-start pt-6 border-t border-gray-100">
+                            <div class="flex-shrink-0">
+                                <svg class="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                                </svg>
+                            </div>
+                            <div class="ml-4 w-full">
+                                <p class="text-lg font-medium text-gray-900 mb-3">{t.social}</p>
+                                <div class="flex flex-wrap gap-4">
+                                    {social.map(item => (
+                                        <a href={item.url} target="_blank" rel="noopener noreferrer" 
+                                           class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                                            {item.label}
+                                        </a>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </div>
+        </div>
+     </div>
+  </main>
+</Layout>
