@@ -126,9 +126,26 @@ const locales = [
         <p class="text-sm text-white/80">{profileRole}</p>
       </div>
       
-      {links.map(link => (
-        <li><a href={link.href} class={`text-lg mb-1 rounded-none px-4 py-2 ${Astro.url.pathname === link.href ? 'active font-bold bg-white text-[#000040] border-l-4 border-transparent' : 'hover:bg-white/10 border-l-4 border-transparent text-white'}`}>{link.label}</a></li>
-      ))}
+      {links.map(link => {
+          const currentPath = Astro.url.pathname;
+          // Active if exact match OR starts with href (except for homepage which must be exact)
+          const isActive = link.href === `/${lang}` 
+              ? currentPath === link.href 
+              : currentPath.startsWith(link.href);
+          
+          return (
+            <li>
+                <a href={link.href} 
+                   class={`text-lg mb-1 rounded-none px-4 py-2 transition-colors duration-200 
+                   ${isActive 
+                        ? 'font-bold bg-gray-100 text-[#000040] border-l-4 border-[#97B4D6]' 
+                        : 'text-white hover:bg-white/25 border-l-4 border-transparent'
+                    }`}>
+                    {link.label}
+                </a>
+            </li>
+          );
+      })}
       
       <div class="mt-auto pt-2 text-xs text-white/50 text-center">
          &copy; {new Date().getFullYear()} Yael Assor
