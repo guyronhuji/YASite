@@ -132,7 +132,7 @@ function getCleanSlug(slug: string) {
                             </h2>
                             {(() => {
                                 const summary = item.data.description || (item.body ? item.body.substring(0, 100) + '...' : null);
-                                return summary ? <p class="text-gray-600 mb-4 line-clamp-3 text-sm flex-grow leading-relaxed">{summary}</p> : null;
+                                return summary ? <p class="text-gray-600 mb-4 line-clamp-3 text-lg flex-grow leading-relaxed">{summary}</p> : null;
                             })()}
                             <div class="mt-auto pt-4 border-t border-gray-50 flex justify-between items-center text-sm">
                                 <a href={link} class="text-indigo-600 font-medium hover:text-indigo-500">Read more</a>

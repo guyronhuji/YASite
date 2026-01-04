@@ -1,7 +1,7 @@
 ---
 title: ד״ר יעל עשור
 role: מרצה בכירה
-image: /uploads/YA.jpg
+image: /uploads/_L8A2086.jpg
 email: yaelassor@gmail.com
 address: |-
   אגודת עמיתי מרטין בובר
