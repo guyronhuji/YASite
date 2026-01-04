@@ -2,8 +2,6 @@
 @plugin "daisyui";
 @plugin "@tailwindcss/typography";
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Nunito:wght@400;700;800&display=swap');
-
 @theme {
     --color-primary: #000040;
     --color-secondary: #97B4D6;
@@ -17,6 +15,10 @@
     --color-text-base: #1f2937;
     /* Gray-800 */
     --leading-base: 1.75;
+}
+
+::view-transition-group(root) {
+    animation-duration: 0.2s;
 }
 
 @layer base {

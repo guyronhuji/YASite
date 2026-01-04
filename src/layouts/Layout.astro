@@ -19,6 +19,9 @@ import { ViewTransitions } from 'astro:transitions';
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
         <ViewTransitions />
@@ -26,7 +29,7 @@ import { ViewTransitions } from 'astro:transitions';
 	<body class="min-h-screen relative">
         {backgroundImage && (
             <div class="fixed inset-0 z-0 pointer-events-none">
-                <img src={encodeURI(backgroundImage)} alt="" class="w-full h-full object-cover opacity-40" />
+                <img src={encodeURI(backgroundImage)} alt="" class="w-full h-full object-cover opacity-40" fetchpriority="high" />
             </div>
         )}
 		<div class="relative z-10">
