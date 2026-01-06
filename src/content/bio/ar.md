@@ -2,7 +2,7 @@
 title: د. ياعيل عاسور
 role: أستاذ مساعد
 image: /uploads/_L8A2086.jpg
-backgroundImage: /uploads/WhatsApp%20Image%202026-01-06%20at%2017.25.31.jpeg
+backgroundImage: /uploads/WhatsApp%20Image%202026-01-06%20at%2017.26.45.jpeg
 email: yaelassor@gmail.com
 address: |-
   مجتمع زملاء مارتن بوبر
