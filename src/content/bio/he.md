@@ -1,6 +1,6 @@
 ---
 title: ד״ר יעל עשור
-role: מרצה בכירה
+role: 'אנתרופולוגית של רפואה, מדע, ומדיניות ציבורית'
 image: /uploads/_L8A2086.jpg
 backgroundImage: /uploads/WhatsApp%20Image%202026-01-06%20at%2017.25.31.jpeg
 email: yaelassor@gmail.com
