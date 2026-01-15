@@ -58,6 +58,10 @@ var config_default = defineConfig({
         format: "md",
         fields: commonFields,
         ui: {
+          allowedActions: {
+            create: true,
+            delete: true
+          },
           // @ts-ignore
           itemProps: (item) => {
             return { label: item?.data?.order ? `${item.data.order}. ${item.data.title}` : item?.data?.title };
@@ -118,7 +122,13 @@ var config_default = defineConfig({
         label: "CV",
         path: "src/content/cv",
         format: "md",
-        fields: commonFields
+        fields: commonFields,
+        ui: {
+          allowedActions: {
+            create: true,
+            delete: true
+          }
+        }
       },
       {
         name: "publications",
@@ -138,7 +148,13 @@ var config_default = defineConfig({
             list: true
           },
           { type: "rich-text", name: "body", label: "Abstract", isBody: true }
-        ]
+        ],
+        ui: {
+          allowedActions: {
+            create: true,
+            delete: true
+          }
+        }
       }
     ]
   }
