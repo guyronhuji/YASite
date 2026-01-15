@@ -1,41 +1,73 @@
 ---
-import '../styles/global.css';
-import Sidebar from '../components/Sidebar.astro';
+import "../styles/global.css";
+import Sidebar from "../components/Sidebar.astro";
 
 interface Props {
-	title?: string;
-	lang?: string;
+    title?: string;
+    lang?: string;
     backgroundImage?: string;
+    openLinksInNewTab?: boolean;
 }
 
-const { title = "Academic Website", lang = "en", backgroundImage } = Astro.props;
-const dir = lang === 'he' || lang === 'ar' ? 'rtl' : 'ltr';
-import { ViewTransitions } from 'astro:transitions';
+const {
+    title = "Academic Website",
+    lang = "en",
+    backgroundImage,
+    openLinksInNewTab = false,
+} = Astro.props;
+const dir = lang === "he" || lang === "ar" ? "rtl" : "ltr";
+import { ViewTransitions } from "astro:transitions";
 ---
 
 <!doctype html>
-<html lang={lang} dir={dir} class={`scroll-smooth text-base-content ${backgroundImage ? '' : 'bg-base-100'}`} data-theme="pastel">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
-		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
+<html
+    lang={lang}
+    dir={dir}
+    class={`scroll-smooth text-base-content ${backgroundImage ? "" : "bg-base-100"}`}
+    data-theme="pastel"
+>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Nunito:wght@400;700;800&display=swap"
+            rel="stylesheet"
+        />
+        <meta name="generator" content={Astro.generator} />
+        <title>{title}</title>
+        <script is:inline define:vars={{ openLinksInNewTab }}>
+            document.addEventListener("astro:page-load", () => {
+                if (openLinksInNewTab) {
+                    document.querySelectorAll("main a").forEach((link) => {
+                        if (!link.hasAttribute("target")) {
+                            link.setAttribute("target", "_blank");
+                        }
+                    });
+                }
+            });
+        </script>
         <ViewTransitions />
-	</head>
-	<body class="min-h-screen relative">
-        {backgroundImage && (
-            <div class="fixed inset-0 z-0 pointer-events-none">
-                <img src={encodeURI(backgroundImage)} alt="" class="w-full h-full object-cover opacity-40" fetchpriority="high" />
-            </div>
-        )}
-		<div class="relative z-10">
+    </head>
+    <body class="min-h-screen relative">
+        {
+            backgroundImage && (
+                <div class="fixed inset-0 z-0 pointer-events-none">
+                    <img
+                        src={encodeURI(backgroundImage)}
+                        alt=""
+                        class="w-full h-full object-cover opacity-40"
+                        fetchpriority="high"
+                    />
+                </div>
+            )
+        }
+        <div class="relative z-10">
             <Sidebar lang={lang} hasBackground={!!backgroundImage}>
-            <slot />
-        </Sidebar>
+                <slot />
+            </Sidebar>
         </div>
-	</body>
+    </body>
 </html>

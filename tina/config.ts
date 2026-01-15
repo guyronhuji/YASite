@@ -7,6 +7,7 @@ const commonFields = [
     { type: "number" as const, name: "order", label: "Order" },
     { type: "image" as const, name: "image", label: "Image" },
     { type: "image" as const, name: "backgroundImage", label: "Background Image" },
+    { type: "boolean" as const, name: "openLinksInNewTab", label: "Open Links in New Tab" },
     { type: "rich-text" as const, name: "body", label: "Body", isBody: true },
 ];
 

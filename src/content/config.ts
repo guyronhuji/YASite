@@ -28,6 +28,7 @@ const commonCollection = defineCollection({
         image: z.string().optional(),
         tags: z.array(z.string()).optional(),
         backgroundImage: z.string().optional(),
+        openLinksInNewTab: z.boolean().optional(),
     }),
 });
 

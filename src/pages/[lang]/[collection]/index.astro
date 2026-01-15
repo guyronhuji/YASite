@@ -1,33 +1,42 @@
 ---
-import Layout from '../../../layouts/Layout.astro';
-import Navbar from '../../../components/Navbar.astro';
-import { getCollection, getEntry } from 'astro:content';
+import Layout from "../../../layouts/Layout.astro";
+import Navbar from "../../../components/Navbar.astro";
+import { getCollection, getEntry } from "astro:content";
 
 export async function getStaticPaths() {
-  const collections = ['research', 'activism', 'outreach', 'services', 'publications'];
-  const langs = ['en', 'he', 'ar'];
-  
-  const paths = [];
-  for (const lang of langs) {
-      for (const collection of collections) {
-          paths.push({ params: { lang, collection } });
-      }
-  }
-  return paths;
+    const collections = [
+        "research",
+        "activism",
+        "outreach",
+        "services",
+        "publications",
+    ];
+    const langs = ["en", "he", "ar"];
+
+    const paths = [];
+    for (const lang of langs) {
+        for (const collection of collections) {
+            paths.push({ params: { lang, collection } });
+        }
+    }
+    return paths;
 }
 
 const { lang, collection } = Astro.params;
 
 // Get items
-const allItems = await getCollection(collection as any, ({ id }) => {
-  if (collection === 'publications') {
-      return id.startsWith('en/');
-  }
-  return id.startsWith(lang + '/');
+const allItems = await getCollection(collection as any, (entry: any) => {
+    const { id } = entry;
+    if (collection === "publications") {
+        return id.startsWith("en/");
+    }
+    return id.startsWith(lang + "/");
 });
 
 // Find the "Main Page" (index) entry within this collection
-const introEntryIndex = allItems.findIndex(item => item.slug.endsWith('/index') || item.id.endsWith('/index.md'));
+const introEntryIndex = allItems.findIndex(
+    (item) => item.slug.endsWith("/index") || item.id.endsWith("/index.md"),
+);
 let sectionIntro = null;
 
 if (introEntryIndex !== -1) {
@@ -41,108 +50,350 @@ allItems.sort((a, b) => {
     // 1. Sort by Order (if exists) - Ascending
     const orderA = a.data.order !== undefined ? a.data.order : 9999;
     const orderB = b.data.order !== undefined ? b.data.order : 9999;
-    
+
     if (orderA !== orderB) {
         return orderA - orderB;
     }
 
     // 2. Sort by date or year - Descending (Newest first)
-    const dateA = a.data.date ? new Date(a.data.date).getTime() : (a.data.year || 0);
-    const dateB = b.data.date ? new Date(b.data.date).getTime() : (b.data.year || 0);
+    const dateA = a.data.date
+        ? new Date(a.data.date).getTime()
+        : a.data.year || 0;
+    const dateB = b.data.date
+        ? new Date(b.data.date).getTime()
+        : b.data.year || 0;
     return dateB - dateA;
 });
 
-
-const IntroContent = sectionIntro ? (await sectionIntro.render()).Content : null;
+const IntroContent = sectionIntro
+    ? (await sectionIntro.render()).Content
+    : null;
 
 const titleMap = {
-    en: { research: 'Research', activism: 'Activism', outreach: 'Outreach and Public Engagement', services: 'Services', publications: 'Publications' },
-    he: { research: 'מחקר', activism: 'אקטיביזם', outreach: 'מעורבות ציבורית', services: 'שירותי מחקר', publications: 'פרסומים' },
-    ar: { research: 'الأبحاث', activism: 'النشاط', outreach: 'التوعية', services: 'الخدمات', publications: 'المنشورات' },
+    en: {
+        research: "Research",
+        activism: "Activism",
+        outreach: "Outreach and Public Engagement",
+        services: "Services",
+        publications: "Publications",
+    },
+    he: {
+        research: "מחקר",
+        activism: "אקטיביזם",
+        outreach: "מעורבות ציבורית",
+        services: "שירותי מחקר",
+        publications: "פרסומים",
+    },
+    ar: {
+        research: "الأبحاث",
+        activism: "النشاط",
+        outreach: "التوعية",
+        services: "الخدمات",
+        publications: "المنشورات",
+    },
 };
 
-const pageTitle = sectionIntro?.data.title || titleMap[lang][collection] || collection;
+const pageTitle =
+    sectionIntro?.data.title || titleMap[lang][collection] || collection;
 
 // Helper to get clean slug (remove lang prefix)
 function getCleanSlug(slug: string) {
-    const parts = slug.split('/');
-    return parts.length > 1 ? parts.slice(1).join('/') : slug;
+    const parts = slug.split("/");
+    return parts.length > 1 ? parts.slice(1).join("/") : slug;
 }
 ---
 
-<Layout title={pageTitle} lang={lang} backgroundImage={sectionIntro?.data.backgroundImage}>
-  <main class="py-12 px-4 sm:px-6 lg:px-8">
-    <div class="border-b border-gray-200 mb-8 pb-4">
-        <h1 class="text-3xl font-extrabold text-[#000040] font-serif">{pageTitle}</h1>
-        {IntroContent && (
-            <div class="mt-4 prose prose-indigo text-base-content max-w-none">
-                <IntroContent />
-            </div>
-        )}
-    </div>
-    
-
-    
-
-    
-    <div class={`grid ${collection === 'publications' ? 'gap-1 lg:grid-cols-1' : 'gap-8 lg:grid-cols-3 sm:grid-cols-2'}`}>
-      {allItems.length === 0 && <p class="text-gray-500 italic col-span-full">No content found.</p>}
-      
-      {allItems.map(item => {
-          const cleanSlug = getCleanSlug(item.slug);
-          const isPublication = collection === 'publications';
-          const link = `/${lang}/${collection}/${cleanSlug}`;
-          
-          return (
-            <article class={`bg-white transition-all duration-300 rounded-lg group ${isPublication ? 'p-3 hover:bg-gray-50' : 'shadow-sm hover:shadow-xl hover:-translate-y-1 border border-gray-100 overflow-hidden flex flex-col'}`}>
-                {isPublication ? (
-                    <div>
-                        <h2 class="text-xl font-bold text-[#000040] m-0">
-                             <a href={link} class="hover:underline">{item.data.title}</a>
-                        </h2>
-                        <div class="text-gray-600 mt-1">
-                            {item.data.authors && <span>{item.data.authors.join(', ')}. </span>}
-                            {item.data.year && <span>({item.data.year}). </span>}
-                            {item.data.venue && <span class="italic">{item.data.venue}.</span>}
-                        </div>
-                         {item.data.url && (
-                            <a href={item.data.url} target="_blank" class="inline-block mt-2 text-sm text-indigo-600 hover:text-indigo-500 font-medium">
-                                View Paper &rarr;
-                            </a>
-                        )}
+<Layout
+    title={pageTitle}
+    lang={lang}
+    backgroundImage={sectionIntro?.data.backgroundImage}
+    openLinksInNewTab={sectionIntro?.data.openLinksInNewTab}
+>
+    <main class="py-12 px-4 sm:px-6 lg:px-8">
+        <div class="border-b border-gray-200 mb-8 pb-4">
+            <h1 class="text-3xl font-extrabold text-[#000040] font-serif">
+                {pageTitle}
+            </h1>
+            {
+                IntroContent && (
+                    <div class="mt-4 prose prose-indigo text-base-content max-w-none">
+                        <IntroContent />
                     </div>
-                ) : (
-                    <>
-                        <a href={link} class="block overflow-hidden relative">
-                        {item.data.image ? (
-                             <div class="aspect-w-16 aspect-h-9 bg-gray-100 group-hover:opacity-95 transition-opacity">
-                                <img src={item.data.image} alt={item.data.title} class="w-full h-48 object-cover" />
-                             </div>
-                        ) : (
-                             <div class="h-48 bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center text-slate-300 border-b border-gray-100 group-hover:bg-slate-100 transition-colors">
-                                <svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                </svg>
-                             </div>
-                        )}
-                        </a>
-                        <div class="p-6 flex flex-col flex-grow">
-                             <h2 class="text-xl font-bold text-[#000040] mb-2 font-serif group-hover:text-[#000040] transition-colors">
-                                <a href={link}>{item.data.title}</a>
-                            </h2>
-                            {(() => {
-                                const summary = item.data.description || (item.body ? item.body.substring(0, 100) + '...' : null);
-                                return summary ? <p class="text-gray-600 mb-4 line-clamp-3 text-lg flex-grow leading-relaxed">{summary}</p> : null;
-                            })()}
-                            <div class="mt-auto pt-4 border-t border-gray-50 flex justify-between items-center text-sm">
-                                <a href={link} class="text-indigo-600 font-medium hover:text-indigo-500">Read more</a>
-                                <span class="text-gray-300">&rarr;</span>
-                            </div>
-                        </div>
-                    </>
-                )}
-            </article>
-      )})}
-    </div>
-  </main>
+                )
+            }
+        </div>
+
+        <div
+            class={`grid ${collection === "publications" ? "gap-1 lg:grid-cols-1" : "gap-8 lg:grid-cols-3 sm:grid-cols-2"}`}
+        >
+            {
+                allItems.length === 0 && (
+                    <p class="text-gray-500 italic col-span-full">
+                        No content found.
+                    </p>
+                )
+            }
+
+            {
+                (() => {
+                    // Filter logic: Only show top-level items or immediate subfolders
+                    const displayedItems = [];
+                    const processedFolders = new Set();
+                    const folderMetadata = new Map();
+
+                    // Pass 1: Identify folder metadata from index.md files
+                    for (const item of allItems) {
+                        // Check if it's an index file for a subfolder
+                        if (item.id.endsWith("/index.md")) {
+                            // Use the slug to identify the folder name ensuring it matches other items
+                            // e.g. slug "en/public-writing" (from en/Public Writing/index.md) -> clean "public-writing"
+                            const cleanSlug = getCleanSlug(item.slug);
+                            // If cleanSlug is "folder/index" (path-based) or just "folder" (index-based)
+                            // We normalize to the folder name
+
+                            let folderName = cleanSlug;
+                            if (folderName.endsWith("/index")) {
+                                folderName = folderName.replace(/\/index$/, "");
+                            }
+
+                            folderMetadata.set(folderName, item);
+                        }
+                    }
+
+                    for (const item of allItems) {
+                        const cleanSlug = getCleanSlug(item.slug);
+                        const parts = cleanSlug.split("/");
+                        const isIndexFile = item.id.endsWith("/index.md");
+
+                        let folderName = null;
+
+                        if (parts.length > 1) {
+                            // "folder/file" -> folderName "folder"
+                            folderName = parts[0];
+                        } else if (isIndexFile) {
+                            // "folder" (from index file) -> folderName "folder"
+                            folderName = cleanSlug;
+                            // Clean potential trailing index if slug behavior varies
+                            if (folderName.endsWith("/index")) {
+                                folderName = folderName.replace(/\/index$/, "");
+                            }
+                        }
+
+                        if (folderName) {
+                            // It belongs to a subfolder (or IS the subfolder definition)
+                            if (!processedFolders.has(folderName)) {
+                                processedFolders.add(folderName);
+
+                                const folderIndexItem =
+                                    folderMetadata.get(folderName);
+
+                                let folderTitle =
+                                    folderName.charAt(0).toUpperCase() +
+                                    folderName.slice(1).replace(/-/g, " ");
+                                let folderImage = undefined;
+
+                                if (folderIndexItem) {
+                                    if (
+                                        folderIndexItem.data.title &&
+                                        folderIndexItem.data.title.toLowerCase() !==
+                                            "index"
+                                    ) {
+                                        folderTitle =
+                                            folderIndexItem.data.title;
+                                    }
+                                    folderImage =
+                                        folderIndexItem.data.image ||
+                                        folderIndexItem.data.backgroundImage;
+                                }
+
+                                displayedItems.push({
+                                    type: "folder",
+                                    title: folderTitle,
+                                    slug: folderName,
+                                    link: `/${lang}/${collection}/${folderName}`,
+                                    image: folderImage,
+                                });
+                            }
+                            // If this was the index file, we are done (don't add as file)
+                            if (isIndexFile) continue;
+
+                            // If this was a regular file in the folder, we continue...
+                            // CURRENT LOGIC: "If parts.length === 1 -> display as file".
+                            // But here parts.length > 1, so it won't be displayed as file anyway in the original logic.
+                            // The original logic had `if (parts.length === 1) { push file } else { push folder }`.
+                            // So we just need to skip the `else` block logic if we handled it here?
+
+                            // Let's restructure to match the new flow
+                        } else {
+                            // It's a top-level file (and NOT a subfolder index)
+                            displayedItems.push({
+                                type: "file",
+                                item,
+                                link: `/${lang}/${collection}/${cleanSlug}`,
+                            });
+                        }
+                    }
+
+                    return displayedItems.map((node) => {
+                        const isPublication = collection === "publications";
+
+                        if (node.type === "folder") {
+                            return (
+                                <a
+                                    href={node.link}
+                                    class={`group block bg-gray-50 border border-gray-200 rounded-lg hover:bg-white hover:shadow-lg transition-all duration-300 overflow-hidden ${node.image ? "p-0" : "p-6"}`}
+                                >
+                                    {node.image ? (
+                                        <div class="aspect-w-16 aspect-h-9 bg-gray-100 group-hover:opacity-95 transition-opacity">
+                                            <img
+                                                src={node.image}
+                                                alt={node.title}
+                                                class="w-full h-48 object-cover"
+                                            />
+                                            <div class="p-6">
+                                                <h2 class="text-xl font-bold font-serif text-[#000040]">
+                                                    {node.title}
+                                                </h2>
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <div class="flex items-center text-[#000040]">
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                class="h-10 w-10 mr-4 text-indigo-300 group-hover:text-indigo-500 transition-colors"
+                                                viewBox="0 0 20 20"
+                                                fill="currentColor"
+                                            >
+                                                <path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" />
+                                            </svg>
+                                            <h2 class="text-xl font-bold font-serif">
+                                                {node.title}
+                                            </h2>
+                                        </div>
+                                    )}
+                                </a>
+                            );
+                        }
+
+                        const item = node.item;
+                        const link = node.link;
+
+                        return (
+                            <article
+                                class={`bg-white transition-all duration-300 rounded-lg group ${isPublication ? "p-3 hover:bg-gray-50" : "shadow-sm hover:shadow-xl hover:-translate-y-1 border border-gray-100 overflow-hidden flex flex-col"}`}
+                            >
+                                {isPublication ? (
+                                    <div>
+                                        <h2 class="text-xl font-bold text-[#000040] m-0">
+                                            <a
+                                                href={link}
+                                                class="hover:underline"
+                                            >
+                                                {item.data.title}
+                                            </a>
+                                        </h2>
+                                        <div class="text-gray-600 mt-1">
+                                            {item.data.authors && (
+                                                <span>
+                                                    {item.data.authors.join(
+                                                        ", ",
+                                                    )}
+                                                    .{" "}
+                                                </span>
+                                            )}
+                                            {item.data.year && (
+                                                <span>
+                                                    ({item.data.year}).{" "}
+                                                </span>
+                                            )}
+                                            {item.data.venue && (
+                                                <span class="italic">
+                                                    {item.data.venue}.
+                                                </span>
+                                            )}
+                                        </div>
+                                        {item.data.url && (
+                                            <a
+                                                href={item.data.url}
+                                                target="_blank"
+                                                class="inline-block mt-2 text-sm text-indigo-600 hover:text-indigo-500 font-medium"
+                                            >
+                                                View Paper &rarr;
+                                            </a>
+                                        )}
+                                    </div>
+                                ) : (
+                                    <>
+                                        <a
+                                            href={link}
+                                            class="block overflow-hidden relative"
+                                        >
+                                            {item.data.image ? (
+                                                <div class="aspect-w-16 aspect-h-9 bg-gray-100 group-hover:opacity-95 transition-opacity">
+                                                    <img
+                                                        src={item.data.image}
+                                                        alt={item.data.title}
+                                                        class="w-full h-48 object-cover"
+                                                    />
+                                                </div>
+                                            ) : (
+                                                <div class="h-48 bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center text-slate-300 border-b border-gray-100 group-hover:bg-slate-100 transition-colors">
+                                                    <svg
+                                                        class="w-16 h-16"
+                                                        fill="none"
+                                                        stroke="currentColor"
+                                                        viewBox="0 0 24 24"
+                                                    >
+                                                        <path
+                                                            stroke-linecap="round"
+                                                            stroke-linejoin="round"
+                                                            stroke-width="1.5"
+                                                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                                                        />
+                                                    </svg>
+                                                </div>
+                                            )}
+                                        </a>
+                                        <div class="p-6 flex flex-col flex-grow">
+                                            <h2 class="text-xl font-bold text-[#000040] mb-2 font-serif group-hover:text-[#000040] transition-colors">
+                                                <a href={link}>
+                                                    {item.data.title}
+                                                </a>
+                                            </h2>
+                                            {(() => {
+                                                const summary =
+                                                    item.data.description ||
+                                                    (item.body
+                                                        ? item.body.substring(
+                                                              0,
+                                                              100,
+                                                          ) + "..."
+                                                        : null);
+                                                return summary ? (
+                                                    <p class="text-gray-600 mb-4 line-clamp-3 text-lg flex-grow leading-relaxed">
+                                                        {summary}
+                                                    </p>
+                                                ) : null;
+                                            })()}
+                                            <div class="mt-auto pt-4 border-t border-gray-50 flex justify-between items-center text-sm">
+                                                <a
+                                                    href={link}
+                                                    class="text-indigo-600 font-medium hover:text-indigo-500"
+                                                >
+                                                    Read more
+                                                </a>
+                                                <span class="text-gray-300">
+                                                    &rarr;
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </>
+                                )}
+                            </article>
+                        );
+                    });
+                })()
+            }
+        </div>
+    </main>
 </Layout>

@@ -22,6 +22,7 @@ fragment ResearchParts on Research {
   order
   image
   backgroundImage
+  openLinksInNewTab
   body
 }
 
@@ -33,6 +34,7 @@ fragment ActivismParts on Activism {
   order
   image
   backgroundImage
+  openLinksInNewTab
   body
 }
 
@@ -44,6 +46,7 @@ fragment OutreachParts on Outreach {
   order
   image
   backgroundImage
+  openLinksInNewTab
   body
 }
 
@@ -55,6 +58,7 @@ fragment ServicesParts on Services {
   order
   image
   backgroundImage
+  openLinksInNewTab
   body
 }
 
@@ -72,6 +76,7 @@ fragment CvParts on Cv {
   order
   image
   backgroundImage
+  openLinksInNewTab
   body
 }
 

@@ -369,6 +369,7 @@ export type Research = Node & Document & {
   order?: Maybe<Scalars['Float']['output']>;
   image?: Maybe<Scalars['String']['output']>;
   backgroundImage?: Maybe<Scalars['String']['output']>;
+  openLinksInNewTab?: Maybe<Scalars['Boolean']['output']>;
   body?: Maybe<Scalars['JSON']['output']>;
   id: Scalars['ID']['output'];
   _sys: SystemInfo;
@@ -393,6 +394,11 @@ export type NumberFilter = {
   in?: InputMaybe<Array<InputMaybe<Scalars['Float']['input']>>>;
 };
 
+export type BooleanFilter = {
+  eq?: InputMaybe<Scalars['Boolean']['input']>;
+  exists?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
 export type ResearchFilter = {
   title?: InputMaybe<StringFilter>;
   description?: InputMaybe<StringFilter>;
@@ -400,6 +406,7 @@ export type ResearchFilter = {
   order?: InputMaybe<NumberFilter>;
   image?: InputMaybe<ImageFilter>;
   backgroundImage?: InputMaybe<ImageFilter>;
+  openLinksInNewTab?: InputMaybe<BooleanFilter>;
   body?: InputMaybe<RichTextFilter>;
 };
 
@@ -424,6 +431,7 @@ export type Activism = Node & Document & {
   order?: Maybe<Scalars['Float']['output']>;
   image?: Maybe<Scalars['String']['output']>;
   backgroundImage?: Maybe<Scalars['String']['output']>;
+  openLinksInNewTab?: Maybe<Scalars['Boolean']['output']>;
   body?: Maybe<Scalars['JSON']['output']>;
   id: Scalars['ID']['output'];
   _sys: SystemInfo;
@@ -437,6 +445,7 @@ export type ActivismFilter = {
   order?: InputMaybe<NumberFilter>;
   image?: InputMaybe<ImageFilter>;
   backgroundImage?: InputMaybe<ImageFilter>;
+  openLinksInNewTab?: InputMaybe<BooleanFilter>;
   body?: InputMaybe<RichTextFilter>;
 };
 
@@ -461,6 +470,7 @@ export type Outreach = Node & Document & {
   order?: Maybe<Scalars['Float']['output']>;
   image?: Maybe<Scalars['String']['output']>;
   backgroundImage?: Maybe<Scalars['String']['output']>;
+  openLinksInNewTab?: Maybe<Scalars['Boolean']['output']>;
   body?: Maybe<Scalars['JSON']['output']>;
   id: Scalars['ID']['output'];
   _sys: SystemInfo;
@@ -474,6 +484,7 @@ export type OutreachFilter = {
   order?: InputMaybe<NumberFilter>;
   image?: InputMaybe<ImageFilter>;
   backgroundImage?: InputMaybe<ImageFilter>;
+  openLinksInNewTab?: InputMaybe<BooleanFilter>;
   body?: InputMaybe<RichTextFilter>;
 };
 
@@ -498,6 +509,7 @@ export type Services = Node & Document & {
   order?: Maybe<Scalars['Float']['output']>;
   image?: Maybe<Scalars['String']['output']>;
   backgroundImage?: Maybe<Scalars['String']['output']>;
+  openLinksInNewTab?: Maybe<Scalars['Boolean']['output']>;
   body?: Maybe<Scalars['JSON']['output']>;
   id: Scalars['ID']['output'];
   _sys: SystemInfo;
@@ -511,6 +523,7 @@ export type ServicesFilter = {
   order?: InputMaybe<NumberFilter>;
   image?: InputMaybe<ImageFilter>;
   backgroundImage?: InputMaybe<ImageFilter>;
+  openLinksInNewTab?: InputMaybe<BooleanFilter>;
   body?: InputMaybe<RichTextFilter>;
 };
 
@@ -562,6 +575,7 @@ export type Cv = Node & Document & {
   order?: Maybe<Scalars['Float']['output']>;
   image?: Maybe<Scalars['String']['output']>;
   backgroundImage?: Maybe<Scalars['String']['output']>;
+  openLinksInNewTab?: Maybe<Scalars['Boolean']['output']>;
   body?: Maybe<Scalars['JSON']['output']>;
   id: Scalars['ID']['output'];
   _sys: SystemInfo;
@@ -575,6 +589,7 @@ export type CvFilter = {
   order?: InputMaybe<NumberFilter>;
   image?: InputMaybe<ImageFilter>;
   backgroundImage?: InputMaybe<ImageFilter>;
+  openLinksInNewTab?: InputMaybe<BooleanFilter>;
   body?: InputMaybe<RichTextFilter>;
 };
 
@@ -828,6 +843,7 @@ export type ResearchMutation = {
   order?: InputMaybe<Scalars['Float']['input']>;
   image?: InputMaybe<Scalars['String']['input']>;
   backgroundImage?: InputMaybe<Scalars['String']['input']>;
+  openLinksInNewTab?: InputMaybe<Scalars['Boolean']['input']>;
   body?: InputMaybe<Scalars['JSON']['input']>;
 };
 
@@ -838,6 +854,7 @@ export type ActivismMutation = {
   order?: InputMaybe<Scalars['Float']['input']>;
   image?: InputMaybe<Scalars['String']['input']>;
   backgroundImage?: InputMaybe<Scalars['String']['input']>;
+  openLinksInNewTab?: InputMaybe<Scalars['Boolean']['input']>;
   body?: InputMaybe<Scalars['JSON']['input']>;
 };
 
@@ -848,6 +865,7 @@ export type OutreachMutation = {
   order?: InputMaybe<Scalars['Float']['input']>;
   image?: InputMaybe<Scalars['String']['input']>;
   backgroundImage?: InputMaybe<Scalars['String']['input']>;
+  openLinksInNewTab?: InputMaybe<Scalars['Boolean']['input']>;
   body?: InputMaybe<Scalars['JSON']['input']>;
 };
 
@@ -858,6 +876,7 @@ export type ServicesMutation = {
   order?: InputMaybe<Scalars['Float']['input']>;
   image?: InputMaybe<Scalars['String']['input']>;
   backgroundImage?: InputMaybe<Scalars['String']['input']>;
+  openLinksInNewTab?: InputMaybe<Scalars['Boolean']['input']>;
   body?: InputMaybe<Scalars['JSON']['input']>;
 };
 
@@ -873,6 +892,7 @@ export type CvMutation = {
   order?: InputMaybe<Scalars['Float']['input']>;
   image?: InputMaybe<Scalars['String']['input']>;
   backgroundImage?: InputMaybe<Scalars['String']['input']>;
+  openLinksInNewTab?: InputMaybe<Scalars['Boolean']['input']>;
   body?: InputMaybe<Scalars['JSON']['input']>;
 };
 
@@ -888,17 +908,17 @@ export type PublicationsMutation = {
 
 export type BioPartsFragment = { __typename: 'Bio', title?: string | null, role?: string | null, image?: string | null, backgroundImage?: string | null, email?: string | null, address?: string | null, body?: any | null, social?: Array<{ __typename: 'BioSocial', label?: string | null, url?: string | null } | null> | null };
 
-export type ResearchPartsFragment = { __typename: 'Research', title: string, description?: string | null, date?: string | null, order?: number | null, image?: string | null, backgroundImage?: string | null, body?: any | null };
+export type ResearchPartsFragment = { __typename: 'Research', title: string, description?: string | null, date?: string | null, order?: number | null, image?: string | null, backgroundImage?: string | null, openLinksInNewTab?: boolean | null, body?: any | null };
 
-export type ActivismPartsFragment = { __typename: 'Activism', title: string, description?: string | null, date?: string | null, order?: number | null, image?: string | null, backgroundImage?: string | null, body?: any | null };
+export type ActivismPartsFragment = { __typename: 'Activism', title: string, description?: string | null, date?: string | null, order?: number | null, image?: string | null, backgroundImage?: string | null, openLinksInNewTab?: boolean | null, body?: any | null };
 
-export type OutreachPartsFragment = { __typename: 'Outreach', title: string, description?: string | null, date?: string | null, order?: number | null, image?: string | null, backgroundImage?: string | null, body?: any | null };
+export type OutreachPartsFragment = { __typename: 'Outreach', title: string, description?: string | null, date?: string | null, order?: number | null, image?: string | null, backgroundImage?: string | null, openLinksInNewTab?: boolean | null, body?: any | null };
 
-export type ServicesPartsFragment = { __typename: 'Services', title: string, description?: string | null, date?: string | null, order?: number | null, image?: string | null, backgroundImage?: string | null, body?: any | null };
+export type ServicesPartsFragment = { __typename: 'Services', title: string, description?: string | null, date?: string | null, order?: number | null, image?: string | null, backgroundImage?: string | null, openLinksInNewTab?: boolean | null, body?: any | null };
 
 export type ContactPartsFragment = { __typename: 'Contact', title: string, backgroundImage?: string | null };
 
-export type CvPartsFragment = { __typename: 'Cv', title: string, description?: string | null, date?: string | null, order?: number | null, image?: string | null, backgroundImage?: string | null, body?: any | null };
+export type CvPartsFragment = { __typename: 'Cv', title: string, description?: string | null, date?: string | null, order?: number | null, image?: string | null, backgroundImage?: string | null, openLinksInNewTab?: boolean | null, body?: any | null };
 
 export type PublicationsPartsFragment = { __typename: 'Publications', title: string, venue?: string | null, year?: number | null, url?: string | null, backgroundImage?: string | null, authors?: Array<string | null> | null, body?: any | null };
 
@@ -926,7 +946,7 @@ export type ResearchQueryVariables = Exact<{
 }>;
 
 
-export type ResearchQuery = { __typename?: 'Query', research: { __typename: 'Research', id: string, title: string, description?: string | null, date?: string | null, order?: number | null, image?: string | null, backgroundImage?: string | null, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } };
+export type ResearchQuery = { __typename?: 'Query', research: { __typename: 'Research', id: string, title: string, description?: string | null, date?: string | null, order?: number | null, image?: string | null, backgroundImage?: string | null, openLinksInNewTab?: boolean | null, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } };
 
 export type ResearchConnectionQueryVariables = Exact<{
   before?: InputMaybe<Scalars['String']['input']>;
@@ -938,14 +958,14 @@ export type ResearchConnectionQueryVariables = Exact<{
 }>;
 
 
-export type ResearchConnectionQuery = { __typename?: 'Query', researchConnection: { __typename?: 'ResearchConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'ResearchConnectionEdges', cursor: string, node?: { __typename: 'Research', id: string, title: string, description?: string | null, date?: string | null, order?: number | null, image?: string | null, backgroundImage?: string | null, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
+export type ResearchConnectionQuery = { __typename?: 'Query', researchConnection: { __typename?: 'ResearchConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'ResearchConnectionEdges', cursor: string, node?: { __typename: 'Research', id: string, title: string, description?: string | null, date?: string | null, order?: number | null, image?: string | null, backgroundImage?: string | null, openLinksInNewTab?: boolean | null, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
 
 export type ActivismQueryVariables = Exact<{
   relativePath: Scalars['String']['input'];
 }>;
 
 
-export type ActivismQuery = { __typename?: 'Query', activism: { __typename: 'Activism', id: string, title: string, description?: string | null, date?: string | null, order?: number | null, image?: string | null, backgroundImage?: string | null, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } };
+export type ActivismQuery = { __typename?: 'Query', activism: { __typename: 'Activism', id: string, title: string, description?: string | null, date?: string | null, order?: number | null, image?: string | null, backgroundImage?: string | null, openLinksInNewTab?: boolean | null, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } };
 
 export type ActivismConnectionQueryVariables = Exact<{
   before?: InputMaybe<Scalars['String']['input']>;
@@ -957,14 +977,14 @@ export type ActivismConnectionQueryVariables = Exact<{
 }>;
 
 
-export type ActivismConnectionQuery = { __typename?: 'Query', activismConnection: { __typename?: 'ActivismConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'ActivismConnectionEdges', cursor: string, node?: { __typename: 'Activism', id: string, title: string, description?: string | null, date?: string | null, order?: number | null, image?: string | null, backgroundImage?: string | null, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
+export type ActivismConnectionQuery = { __typename?: 'Query', activismConnection: { __typename?: 'ActivismConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'ActivismConnectionEdges', cursor: string, node?: { __typename: 'Activism', id: string, title: string, description?: string | null, date?: string | null, order?: number | null, image?: string | null, backgroundImage?: string | null, openLinksInNewTab?: boolean | null, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
 
 export type OutreachQueryVariables = Exact<{
   relativePath: Scalars['String']['input'];
 }>;
 
 
-export type OutreachQuery = { __typename?: 'Query', outreach: { __typename: 'Outreach', id: string, title: string, description?: string | null, date?: string | null, order?: number | null, image?: string | null, backgroundImage?: string | null, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } };
+export type OutreachQuery = { __typename?: 'Query', outreach: { __typename: 'Outreach', id: string, title: string, description?: string | null, date?: string | null, order?: number | null, image?: string | null, backgroundImage?: string | null, openLinksInNewTab?: boolean | null, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } };
 
 export type OutreachConnectionQueryVariables = Exact<{
   before?: InputMaybe<Scalars['String']['input']>;
@@ -976,14 +996,14 @@ export type OutreachConnectionQueryVariables = Exact<{
 }>;
 
 
-export type OutreachConnectionQuery = { __typename?: 'Query', outreachConnection: { __typename?: 'OutreachConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'OutreachConnectionEdges', cursor: string, node?: { __typename: 'Outreach', id: string, title: string, description?: string | null, date?: string | null, order?: number | null, image?: string | null, backgroundImage?: string | null, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
+export type OutreachConnectionQuery = { __typename?: 'Query', outreachConnection: { __typename?: 'OutreachConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'OutreachConnectionEdges', cursor: string, node?: { __typename: 'Outreach', id: string, title: string, description?: string | null, date?: string | null, order?: number | null, image?: string | null, backgroundImage?: string | null, openLinksInNewTab?: boolean | null, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
 
 export type ServicesQueryVariables = Exact<{
   relativePath: Scalars['String']['input'];
 }>;
 
 
-export type ServicesQuery = { __typename?: 'Query', services: { __typename: 'Services', id: string, title: string, description?: string | null, date?: string | null, order?: number | null, image?: string | null, backgroundImage?: string | null, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } };
+export type ServicesQuery = { __typename?: 'Query', services: { __typename: 'Services', id: string, title: string, description?: string | null, date?: string | null, order?: number | null, image?: string | null, backgroundImage?: string | null, openLinksInNewTab?: boolean | null, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } };
 
 export type ServicesConnectionQueryVariables = Exact<{
   before?: InputMaybe<Scalars['String']['input']>;
@@ -995,7 +1015,7 @@ export type ServicesConnectionQueryVariables = Exact<{
 }>;
 
 
-export type ServicesConnectionQuery = { __typename?: 'Query', servicesConnection: { __typename?: 'ServicesConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'ServicesConnectionEdges', cursor: string, node?: { __typename: 'Services', id: string, title: string, description?: string | null, date?: string | null, order?: number | null, image?: string | null, backgroundImage?: string | null, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
+export type ServicesConnectionQuery = { __typename?: 'Query', servicesConnection: { __typename?: 'ServicesConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'ServicesConnectionEdges', cursor: string, node?: { __typename: 'Services', id: string, title: string, description?: string | null, date?: string | null, order?: number | null, image?: string | null, backgroundImage?: string | null, openLinksInNewTab?: boolean | null, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
 
 export type ContactQueryVariables = Exact<{
   relativePath: Scalars['String']['input'];
@@ -1021,7 +1041,7 @@ export type CvQueryVariables = Exact<{
 }>;
 
 
-export type CvQuery = { __typename?: 'Query', cv: { __typename: 'Cv', id: string, title: string, description?: string | null, date?: string | null, order?: number | null, image?: string | null, backgroundImage?: string | null, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } };
+export type CvQuery = { __typename?: 'Query', cv: { __typename: 'Cv', id: string, title: string, description?: string | null, date?: string | null, order?: number | null, image?: string | null, backgroundImage?: string | null, openLinksInNewTab?: boolean | null, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } };
 
 export type CvConnectionQueryVariables = Exact<{
   before?: InputMaybe<Scalars['String']['input']>;
@@ -1033,7 +1053,7 @@ export type CvConnectionQueryVariables = Exact<{
 }>;
 
 
-export type CvConnectionQuery = { __typename?: 'Query', cvConnection: { __typename?: 'CvConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'CvConnectionEdges', cursor: string, node?: { __typename: 'Cv', id: string, title: string, description?: string | null, date?: string | null, order?: number | null, image?: string | null, backgroundImage?: string | null, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
+export type CvConnectionQuery = { __typename?: 'Query', cvConnection: { __typename?: 'CvConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'CvConnectionEdges', cursor: string, node?: { __typename: 'Cv', id: string, title: string, description?: string | null, date?: string | null, order?: number | null, image?: string | null, backgroundImage?: string | null, openLinksInNewTab?: boolean | null, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
 
 export type PublicationsQueryVariables = Exact<{
   relativePath: Scalars['String']['input'];
@@ -1080,6 +1100,7 @@ export const ResearchPartsFragmentDoc = gql`
   order
   image
   backgroundImage
+  openLinksInNewTab
   body
 }
     `;
@@ -1092,6 +1113,7 @@ export const ActivismPartsFragmentDoc = gql`
   order
   image
   backgroundImage
+  openLinksInNewTab
   body
 }
     `;
@@ -1104,6 +1126,7 @@ export const OutreachPartsFragmentDoc = gql`
   order
   image
   backgroundImage
+  openLinksInNewTab
   body
 }
     `;
@@ -1116,6 +1139,7 @@ export const ServicesPartsFragmentDoc = gql`
   order
   image
   backgroundImage
+  openLinksInNewTab
   body
 }
     `;
@@ -1135,6 +1159,7 @@ export const CvPartsFragmentDoc = gql`
   order
   image
   backgroundImage
+  openLinksInNewTab
   body
 }
     `;

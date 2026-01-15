@@ -7,6 +7,7 @@ var commonFields = [
   { type: "number", name: "order", label: "Order" },
   { type: "image", name: "image", label: "Image" },
   { type: "image", name: "backgroundImage", label: "Background Image" },
+  { type: "boolean", name: "openLinksInNewTab", label: "Open Links in New Tab" },
   { type: "rich-text", name: "body", label: "Body", isBody: true }
 ];
 var config_default = defineConfig({

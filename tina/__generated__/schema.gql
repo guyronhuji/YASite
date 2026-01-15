@@ -181,6 +181,7 @@ type Research implements Node & Document {
   order: Float
   image: String
   backgroundImage: String
+  openLinksInNewTab: Boolean
   body: JSON
   id: ID!
   _sys: SystemInfo!
@@ -205,6 +206,11 @@ input NumberFilter {
   in: [Float]
 }
 
+input BooleanFilter {
+  eq: Boolean
+  exists: Boolean
+}
+
 input ResearchFilter {
   title: StringFilter
   description: StringFilter
@@ -212,6 +218,7 @@ input ResearchFilter {
   order: NumberFilter
   image: ImageFilter
   backgroundImage: ImageFilter
+  openLinksInNewTab: BooleanFilter
   body: RichTextFilter
 }
 
@@ -233,6 +240,7 @@ type Activism implements Node & Document {
   order: Float
   image: String
   backgroundImage: String
+  openLinksInNewTab: Boolean
   body: JSON
   id: ID!
   _sys: SystemInfo!
@@ -246,6 +254,7 @@ input ActivismFilter {
   order: NumberFilter
   image: ImageFilter
   backgroundImage: ImageFilter
+  openLinksInNewTab: BooleanFilter
   body: RichTextFilter
 }
 
@@ -267,6 +276,7 @@ type Outreach implements Node & Document {
   order: Float
   image: String
   backgroundImage: String
+  openLinksInNewTab: Boolean
   body: JSON
   id: ID!
   _sys: SystemInfo!
@@ -280,6 +290,7 @@ input OutreachFilter {
   order: NumberFilter
   image: ImageFilter
   backgroundImage: ImageFilter
+  openLinksInNewTab: BooleanFilter
   body: RichTextFilter
 }
 
@@ -301,6 +312,7 @@ type Services implements Node & Document {
   order: Float
   image: String
   backgroundImage: String
+  openLinksInNewTab: Boolean
   body: JSON
   id: ID!
   _sys: SystemInfo!
@@ -314,6 +326,7 @@ input ServicesFilter {
   order: NumberFilter
   image: ImageFilter
   backgroundImage: ImageFilter
+  openLinksInNewTab: BooleanFilter
   body: RichTextFilter
 }
 
@@ -359,6 +372,7 @@ type Cv implements Node & Document {
   order: Float
   image: String
   backgroundImage: String
+  openLinksInNewTab: Boolean
   body: JSON
   id: ID!
   _sys: SystemInfo!
@@ -372,6 +386,7 @@ input CvFilter {
   order: NumberFilter
   image: ImageFilter
   backgroundImage: ImageFilter
+  openLinksInNewTab: BooleanFilter
   body: RichTextFilter
 }
 
@@ -490,6 +505,7 @@ input ResearchMutation {
   order: Float
   image: String
   backgroundImage: String
+  openLinksInNewTab: Boolean
   body: JSON
 }
 
@@ -500,6 +516,7 @@ input ActivismMutation {
   order: Float
   image: String
   backgroundImage: String
+  openLinksInNewTab: Boolean
   body: JSON
 }
 
@@ -510,6 +527,7 @@ input OutreachMutation {
   order: Float
   image: String
   backgroundImage: String
+  openLinksInNewTab: Boolean
   body: JSON
 }
 
@@ -520,6 +538,7 @@ input ServicesMutation {
   order: Float
   image: String
   backgroundImage: String
+  openLinksInNewTab: Boolean
   body: JSON
 }
 
@@ -535,6 +554,7 @@ input CvMutation {
   order: Float
   image: String
   backgroundImage: String
+  openLinksInNewTab: Boolean
   body: JSON
 }
 

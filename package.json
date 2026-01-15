@@ -6,6 +6,7 @@
     "dev": "tinacms dev -c \"astro dev\"",
     "start": "astro dev",
     "build": "tinacms build && astro build",
+    "build:local": "tinacms build --skip-cloud-checks && astro build",
     "astro": "astro"
   },
   "dependencies": {

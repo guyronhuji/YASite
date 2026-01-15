@@ -1,0 +1,438 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import Navbar from "../../../components/Navbar.astro";
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+  const collections = [
+    "research",
+    "activism",
+    "outreach",
+    "services",
+    "publications",
+  ];
+  const langs = ["en", "he", "ar"];
+
+  const paths = [];
+  for (const collectionName of collections) {
+    const items = await getCollection(collectionName as any);
+    const folderPaths = new Set();
+
+    for (const item of items) {
+      const parts = item.slug.split("/");
+      if (parts.length < 2) continue;
+
+      const lang = parts[0];
+      // logical slug (without lang) e.g. "folder/subfolder/file"
+      const cleanSlug = parts.slice(1).join("/");
+
+      if (langs.includes(lang)) {
+        // Add the file itself
+        paths.push({
+          params: { lang, collection: collectionName, slug: cleanSlug },
+          props: { item, type: "file" },
+        });
+
+        // Check for intermediate folders
+        const slugParts = cleanSlug.split("/");
+        // If it's deep (e.g. folder/file), add folder
+        if (slugParts.length > 1) {
+          // Add all intermediate folders
+          // e.g. A/B/C -> add A, A/B
+          let currentPath = "";
+          for (let i = 0; i < slugParts.length - 1; i++) {
+            currentPath = currentPath
+              ? `${currentPath}/${slugParts[i]}`
+              : slugParts[i];
+            folderPaths.add(`${lang}|${collectionName}|${currentPath}`);
+          }
+        }
+      }
+    }
+
+    // Add folder paths
+    for (const folderKey of folderPaths) {
+      // Cast folderKey to string explicitly to avoid TS errors if set iteration inference is weird
+      const keyStr = folderKey as string;
+      const parts = keyStr.split("|");
+      if (parts.length !== 3) {
+        console.error(`Invalid folder key: ${keyStr}`);
+        continue;
+      }
+      const [lang, col, slug] = parts;
+
+      if (!lang || !col || !slug) {
+        console.error(`Missing params for folder: ${keyStr}`);
+        continue;
+      }
+
+      paths.push({
+        params: { lang, collection: col, slug },
+        props: { type: "folder", folderSlug: slug },
+      });
+    }
+  }
+  return paths;
+}
+
+const { lang, collection, slug } = Astro.params;
+const { item, type, folderSlug: rawFolderSlug } = Astro.props;
+const itemAny = item as any; // Cast to any to avoid strict type checks
+
+// Ensure folderSlug is treated as string, defaulting to empty string if undefined for safety
+const folderSlug = (rawFolderSlug || "") as string;
+
+// For folders, we need to fetch items in this folder
+let folderItems = [];
+let folderTitle = "";
+let layoutBackgroundImage = undefined;
+let layoutOpenLinksInNewTab = undefined;
+
+// For files, render content
+let Content = null;
+if (type === "file" && itemAny) {
+  try {
+    const renderResult = await itemAny.render();
+    Content = renderResult.Content;
+  } catch (e) {
+    console.error("Error rendering content", e);
+  }
+}
+
+if (type === "folder") {
+  const allItems = await getCollection(collection as any);
+  // Use any to avoid strict type checks for this dynamic logic
+  const itemsAny = allItems as any[];
+
+  // 1. Look for a dedicated index file for this folder
+  // e.g. path/to/folder/index.md
+  const folderIndexItem = itemsAny.find((i) => {
+    const parts = i.slug.split("/");
+    if (parts.length < 2 || parts[0] !== lang) return false;
+    const clean = parts.slice(1).join("/");
+    return clean === folderSlug + "/index";
+  });
+
+  if (folderIndexItem) {
+    if (
+      folderIndexItem.data.title &&
+      folderIndexItem.data.title.toLowerCase() !== "index"
+    ) {
+      folderTitle = folderIndexItem.data.title;
+    } else {
+      const safeFolderSlug = folderSlug || "";
+      let fallbackTitle = safeFolderSlug.split("/").pop() || "";
+      folderTitle =
+        fallbackTitle.charAt(0).toUpperCase() +
+        fallbackTitle.slice(1).replace(/-/g, " ");
+    }
+
+    if (folderIndexItem.data.backgroundImage) {
+      layoutBackgroundImage = folderIndexItem.data.backgroundImage;
+    }
+    if (folderIndexItem.data.openLinksInNewTab) {
+      layoutOpenLinksInNewTab = folderIndexItem.data.openLinksInNewTab;
+    }
+  } else {
+    const safeFolderSlug = folderSlug || "";
+    folderTitle = safeFolderSlug.split("/").pop() || "";
+    folderTitle =
+      folderTitle.charAt(0).toUpperCase() +
+      folderTitle.slice(1).replace(/-/g, " ");
+  }
+
+  folderItems = itemsAny
+    .filter((i) => {
+      const parts = i.slug.split("/");
+      if (parts.length < 2 || parts[0] !== lang) return false;
+      const clean = parts.slice(1).join("/");
+
+      // Filter out the index file itself if we found one (or even if we didn't, we probably don't want to list 'index')
+      if (clean === folderSlug + "/index") return false;
+
+      if (!clean.startsWith(folderSlug + "/")) return false;
+
+      const relativePath = clean.slice(folderSlug.length + 1);
+      return !relativePath.includes("/");
+    })
+    .map((i) => {
+      const parts = i.slug.split("/");
+      const clean = parts.slice(1).join("/");
+      return {
+        type: "file",
+        title: i.data.title,
+        slug: clean,
+        link: `/${lang}/${collection}/${clean}`,
+        data: i.data,
+      };
+    });
+
+  const allItemsInTree = itemsAny.filter((i) => {
+    const parts = i.slug.split("/");
+    if (parts.length < 2 || parts[0] !== lang) return false;
+    const clean = parts.slice(1).join("/");
+    return clean.startsWith(folderSlug + "/") && clean !== folderSlug;
+  });
+
+  const subFolders = new Set();
+  for (const i of allItemsInTree) {
+    const parts = i.slug.split("/");
+    const clean = parts.slice(1).join("/");
+    // exclude index files from "subfolder detection" if they are just defining the current folder
+    if (clean === folderSlug + "/index") continue;
+
+    const relative = clean.slice(folderSlug.length + 1);
+    const subParts = relative.split("/");
+    if (subParts.length > 1) {
+      subFolders.add(subParts[0]);
+    }
+  }
+
+  for (const sub of subFolders as any) {
+    // Check if subfolder has an index file to get better title/image?
+    const subFolderPath = `${folderSlug}/${sub}`;
+    const subIndex = itemsAny.find((i) => {
+      const parts = i.slug.split("/");
+      const clean = parts.slice(1).join("/");
+      return clean === subFolderPath + "/index";
+    });
+
+    let subTitle =
+      sub.charAt(0).toUpperCase() + sub.slice(1).replace(/-/g, " ");
+    let subData = {} as any;
+    let subImage = undefined;
+
+    if (subIndex) {
+      if (
+        subIndex.data.title &&
+        subIndex.data.title.toLowerCase() !== "index"
+      ) {
+        subTitle = subIndex.data.title;
+      }
+      subData = subIndex.data;
+      subImage = subIndex.data.image || subIndex.data.backgroundImage;
+    }
+
+    folderItems.push({
+      type: "folder",
+      title: subTitle,
+      slug: subFolderPath,
+      link: `/${lang}/${collection}/${folderSlug}/${sub}`,
+      data: subData,
+      image: subImage,
+    });
+  }
+}
+
+const backLabels = {
+  en: "Back to list",
+  he: "חזרה לרשימה",
+  ar: "العودة للقائمة",
+};
+
+// Calculate Parent Link
+const parentSlug = slug.includes("/")
+  ? slug.substring(0, slug.lastIndexOf("/"))
+  : null;
+const backLink = parentSlug
+  ? `/${lang}/${collection}/${parentSlug}`
+  : `/${lang}/${collection}`;
+---
+
+<Layout
+  title={type === "folder" ? folderTitle : itemAny.data.title}
+  lang={lang}
+  backgroundImage={type === "file"
+    ? itemAny.data.backgroundImage
+    : layoutBackgroundImage}
+  openLinksInNewTab={type === "file"
+    ? itemAny.data.openLinksInNewTab
+    : layoutOpenLinksInNewTab}
+>
+  <main class="py-12 px-4 sm:px-6 lg:px-8">
+    <a
+      href={backLink}
+      class="text-accent hover:text-primary mb-8 inline-block font-medium rtl:flip"
+    >
+      &larr; {backLabels[lang]}
+    </a>
+
+    {
+      type === "folder" ? (
+        <div>
+          <h1 class="text-3xl font-extrabold text-[#000040] font-serif mb-8 border-b border-gray-200 pb-4">
+            {folderTitle}
+          </h1>
+          <div
+            class={`grid ${collection === "publications" ? "gap-1 lg:grid-cols-1" : "gap-8 lg:grid-cols-3 sm:grid-cols-2"}`}
+          >
+            {folderItems.length === 0 && (
+              <p class="text-gray-500 italic">No content found.</p>
+            )}
+            {folderItems.map((node: any) => {
+              const isPublication = collection === "publications";
+              if (node.type === "folder") {
+                return (
+                  <a
+                    href={node.link}
+                    class={`group block bg-gray-50 border border-gray-200 rounded-lg hover:bg-white hover:shadow-lg transition-all duration-300 overflow-hidden ${node.image ? "p-0" : "p-6"}`}
+                  >
+                    {node.image ? (
+                      <div class="aspect-w-16 aspect-h-9 bg-gray-100 group-hover:opacity-95 transition-opacity">
+                        <img
+                          src={node.image}
+                          alt={node.title}
+                          class="w-full h-48 object-cover"
+                        />
+                        <div class="p-6">
+                          <h2 class="text-xl font-bold font-serif text-[#000040]">
+                            {node.title}
+                          </h2>
+                        </div>
+                      </div>
+                    ) : (
+                      <div class="flex items-center text-[#000040]">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="h-10 w-10 mr-4 text-indigo-300 group-hover:text-indigo-500 transition-colors"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" />
+                        </svg>
+                        <h2 class="text-xl font-bold font-serif">
+                          {node.title}
+                        </h2>
+                      </div>
+                    )}
+                  </a>
+                );
+              }
+              // It's a file
+              return (
+                <article
+                  class={`bg-white transition-all duration-300 rounded-lg group ${isPublication ? "p-3 hover:bg-gray-50" : "shadow-sm hover:shadow-xl hover:-translate-y-1 border border-gray-100 overflow-hidden flex flex-col"}`}
+                >
+                  {isPublication ? (
+                    <div>
+                      <h2 class="text-xl font-bold text-[#000040] m-0">
+                        <a href={node.link} class="hover:underline">
+                          {node.data.title}
+                        </a>
+                      </h2>
+                      <div class="text-gray-600 mt-1">
+                        {node.data.authors && (
+                          <span>{node.data.authors.join(", ")}. </span>
+                        )}
+                        {node.data.year && <span>({node.data.year}). </span>}
+                        {node.data.venue && (
+                          <span class="italic">{node.data.venue}.</span>
+                        )}
+                      </div>
+                      {node.data.url && (
+                        <a
+                          href={node.data.url}
+                          target="_blank"
+                          class="inline-block mt-2 text-sm text-indigo-600 hover:text-indigo-500 font-medium"
+                        >
+                          View Paper &rarr;
+                        </a>
+                      )}
+                    </div>
+                  ) : (
+                    <>
+                      <a
+                        href={node.link}
+                        class="block overflow-hidden relative"
+                      >
+                        {node.data.image ? (
+                          <div class="aspect-w-16 aspect-h-9 bg-gray-100 group-hover:opacity-95 transition-opacity">
+                            <img
+                              src={node.data.image}
+                              alt={node.data.title}
+                              class="w-full h-48 object-cover"
+                            />
+                          </div>
+                        ) : (
+                          <div class="h-48 bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center text-slate-300 border-b border-gray-100 group-hover:bg-slate-100 transition-colors">
+                            <svg
+                              class="w-16 h-16"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="1.5"
+                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                              />
+                            </svg>
+                          </div>
+                        )}
+                      </a>
+                      <div class="p-6 flex flex-col flex-grow">
+                        <h2 class="text-xl font-bold text-[#000040] mb-2 font-serif group-hover:text-[#000040] transition-colors">
+                          <a href={node.link}>{node.data.title}</a>
+                        </h2>
+                        {(() => {
+                          const summary = node.data.description; // Short description
+                          return summary ? (
+                            <p class="text-gray-600 mb-4 line-clamp-3 text-lg flex-grow leading-relaxed">
+                              {summary}
+                            </p>
+                          ) : null;
+                        })()}
+                        <div class="mt-auto pt-4 border-t border-gray-50 flex justify-between items-center text-sm">
+                          <a
+                            href={node.link}
+                            class="text-indigo-600 font-medium hover:text-indigo-500"
+                          >
+                            Read more
+                          </a>
+                          <span class="text-gray-300">&rarr;</span>
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </article>
+              );
+            })}
+          </div>
+        </div>
+      ) : (
+        <article class="prose prose-lg prose-indigo mx-auto text-gray-800 max-w-none leading-[1.75]">
+          <h1 class="text-[#000040] font-extrabold font-serif">
+            {itemAny.data.title}
+          </h1>
+
+          <div class="metadata text-sm text-gray-500 mb-8 pb-4 border-b border-gray-100 flex flex-wrap gap-4">
+            {itemAny.data.venue && <span>{itemAny.data.venue}</span>}
+            {itemAny.data.authors && (
+              <span>{itemAny.data.authors.join(", ")}</span>
+            )}
+            {itemAny.data.url && (
+              <a
+                href={itemAny.data.url}
+                target="_blank"
+                class="text-indigo-600 underline"
+              >
+                Link to Resource
+              </a>
+            )}
+          </div>
+
+          {Content && <Content />}
+        </article>
+      )
+    }
+  </main>
+</Layout>
+
+<style>
+  /* Simple utility to flip arrow in RTL */
+  :global([dir="rtl"]) .rtl\:flip {
+    transform: scaleX(-1);
+    display: inline-block;
+  }
+</style>

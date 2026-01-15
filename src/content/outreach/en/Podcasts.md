@@ -1,5 +1,6 @@
 ---
 title: Podcasts
+openLinksInNewTab: true
 ---
 
 [פודקסט “המעבדה” (כאן 11): זה מתחיל בדמיון - פרק 1](https://www.kan.org.il/content/kan/podcasts/p-8171/%D7%96%D7%94-%D7%9E%D7%AA%D7%97%D7%99%D7%9C-%D7%91%D7%93%D7%9E%D7%99%D7%95%D7%9F/936130/)
