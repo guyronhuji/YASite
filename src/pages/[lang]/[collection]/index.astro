@@ -35,7 +35,10 @@ const allItems = await getCollection(collection as any, (entry: any) => {
 
 // Find the "Main Page" (index) entry within this collection
 const introEntryIndex = allItems.findIndex(
-    (item) => item.slug.endsWith("/index") || item.id.endsWith("/index.md"),
+    (item) =>
+        item.id === `${lang}/index.md` ||
+        item.slug === lang ||
+        item.slug === `${lang}/index`,
 );
 let sectionIntro = null;
 
