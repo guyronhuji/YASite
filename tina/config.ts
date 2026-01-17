@@ -52,6 +52,11 @@ export default defineConfig({
                             { type: "string", name: "label", label: "Platform Name" },
                             { type: "string", name: "url", label: "URL" },
                         ],
+                        ui: {
+                            itemProps: (item: any) => {
+                                return { label: item?.label || "New Social Link" };
+                            },
+                        },
                     },
                     { type: "rich-text", name: "body", label: "Body", isBody: true },
                 ],

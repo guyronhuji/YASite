@@ -13,6 +13,12 @@ address: |-
 social:
   - label: 'Facebook '
     url: 'https://www.facebook.com/yael.assor.1/'
+  - label: Linkedin
+    url: 'https://www.linkedin.com/in/yael-assor-69684a3/'
+  - label: Academia
+    url: 'https://huji.academia.edu/YaelAssor'
+  - label: X
+    url: 'https://x.com/yael_assor?lang=en'
 ---
 
 **Dr. Yael Assor is a socio-cultural and medical anthropologist whose research investigates how culturally dependent moral frameworks shape health policy and healthcare decision tools, including cost-effectiveness analysis and notions of “objectivity” in bureaucratic practices. Her work draws on ethnographic fieldwork to explore how ethical assumptions influence resource allocation in national healthcare systems, with several articles in prominent peer-reviewed journals.**

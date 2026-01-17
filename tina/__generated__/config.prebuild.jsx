@@ -46,7 +46,12 @@ var config_default = defineConfig({
             fields: [
               { type: "string", name: "label", label: "Platform Name" },
               { type: "string", name: "url", label: "URL" }
-            ]
+            ],
+            ui: {
+              itemProps: (item) => {
+                return { label: item?.label || "New Social Link" };
+              }
+            }
           },
           { type: "rich-text", name: "body", label: "Body", isBody: true }
         ]
