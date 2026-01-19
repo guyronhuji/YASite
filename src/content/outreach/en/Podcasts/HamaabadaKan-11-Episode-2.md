@@ -1,7 +1,7 @@
 ---
 title: Hama'abada(Kan 11)-Episode 2
 description: >-
-  Part 1 of a 4-session series, for the Israeli National Broadcasting Network.
+  Part 2 of a 4-session series, for the Israeli National Broadcasting Network.
   In Hebrew
 openLinksInNewTab: true
 ---
