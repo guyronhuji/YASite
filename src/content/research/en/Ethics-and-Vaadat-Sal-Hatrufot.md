@@ -1,6 +1,7 @@
 ---
 title: 'Objectivity as a Bureaucratic Virtue: The Lived Experience of Objectivity in an Israeli Medical Bureaucracy'
 description: Doctoral research (UCLA 2020)
+backgroundImage: /uploads/WhatsApp%20Image%202026-01-03%20at%2022.09.06.jpeg
 ---
 
 In my Ph.D. research, I studied how an ethical ideal of "objectivity" shapes work procedures at the Israeli Public Committee for the Enhancement of the Medical Services Basket (known in Israel as Va'adat Sal Hatrufot), which determines government subsidies for medical treatments.
