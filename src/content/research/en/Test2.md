@@ -2,8 +2,8 @@
 title: The Cultural Constitution of “Bias” in Experimental Physics
 description: Ongoing research
 order: 1
-image: /uploads/IMG_0432.HEIC
-backgroundImage: ''
+image: /uploads/IMG_0432.jpg
+backgroundImage: /uploads/WhatsApp%20Image%202026-01-03%20at%2022.09.06.jpeg
 ---
 
 This ethnographic and interdisciplinary project investigates how the concept of “bias” is defined and practically managed in large-scale experimental physics, where experiments cannot be easily replicated and the epistemic credibility of results is especially critical. Based on qualitative research with physicists participating in the MUSE experiment at the Paul Scherrer Institute (PSI) in Switzerland, the project examines which types of bias are perceived as more severe or dangerous than others, how disagreements about bias unfold among researchers from different professional backgrounds, and how cultural, moral, and professional assumptions shape what counts as a “bias-free” scientific result.
