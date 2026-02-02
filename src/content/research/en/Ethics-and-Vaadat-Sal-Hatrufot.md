@@ -1,6 +1,6 @@
 ---
 title: 'Objectivity as a Bureaucratic Virtue: The Lived Experience of Objectivity in an Israeli Medical Bureaucracy'
-description: Doctoral research (UCLA 2020)
+description: 'Doctoral research '
 image: /uploads/Picture2.jpg
 backgroundImage: /uploads/WhatsApp%20Image%202026-01-03%20at%2022.09.06.jpeg
 ---
