@@ -60,6 +60,7 @@ fragment ServicesParts on Services {
   backgroundImage
   openLinksInNewTab
   body
+  backgroundColor
 }
 
 fragment ContactParts on Contact {

@@ -511,6 +511,7 @@ export type Services = Node & Document & {
   backgroundImage?: Maybe<Scalars['String']['output']>;
   openLinksInNewTab?: Maybe<Scalars['Boolean']['output']>;
   body?: Maybe<Scalars['JSON']['output']>;
+  backgroundColor?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   _sys: SystemInfo;
   _values: Scalars['JSON']['output'];
@@ -525,6 +526,7 @@ export type ServicesFilter = {
   backgroundImage?: InputMaybe<ImageFilter>;
   openLinksInNewTab?: InputMaybe<BooleanFilter>;
   body?: InputMaybe<RichTextFilter>;
+  backgroundColor?: InputMaybe<StringFilter>;
 };
 
 export type ServicesConnectionEdges = {
@@ -878,6 +880,7 @@ export type ServicesMutation = {
   backgroundImage?: InputMaybe<Scalars['String']['input']>;
   openLinksInNewTab?: InputMaybe<Scalars['Boolean']['input']>;
   body?: InputMaybe<Scalars['JSON']['input']>;
+  backgroundColor?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type ContactMutation = {
@@ -914,7 +917,7 @@ export type ActivismPartsFragment = { __typename: 'Activism', title: string, des
 
 export type OutreachPartsFragment = { __typename: 'Outreach', title: string, description?: string | null, date?: string | null, order?: number | null, image?: string | null, backgroundImage?: string | null, openLinksInNewTab?: boolean | null, body?: any | null };
 
-export type ServicesPartsFragment = { __typename: 'Services', title: string, description?: string | null, date?: string | null, order?: number | null, image?: string | null, backgroundImage?: string | null, openLinksInNewTab?: boolean | null, body?: any | null };
+export type ServicesPartsFragment = { __typename: 'Services', title: string, description?: string | null, date?: string | null, order?: number | null, image?: string | null, backgroundImage?: string | null, openLinksInNewTab?: boolean | null, body?: any | null, backgroundColor?: string | null };
 
 export type ContactPartsFragment = { __typename: 'Contact', title: string, backgroundImage?: string | null };
 
@@ -1003,7 +1006,7 @@ export type ServicesQueryVariables = Exact<{
 }>;
 
 
-export type ServicesQuery = { __typename?: 'Query', services: { __typename: 'Services', id: string, title: string, description?: string | null, date?: string | null, order?: number | null, image?: string | null, backgroundImage?: string | null, openLinksInNewTab?: boolean | null, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } };
+export type ServicesQuery = { __typename?: 'Query', services: { __typename: 'Services', id: string, title: string, description?: string | null, date?: string | null, order?: number | null, image?: string | null, backgroundImage?: string | null, openLinksInNewTab?: boolean | null, body?: any | null, backgroundColor?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } };
 
 export type ServicesConnectionQueryVariables = Exact<{
   before?: InputMaybe<Scalars['String']['input']>;
@@ -1015,7 +1018,7 @@ export type ServicesConnectionQueryVariables = Exact<{
 }>;
 
 
-export type ServicesConnectionQuery = { __typename?: 'Query', servicesConnection: { __typename?: 'ServicesConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'ServicesConnectionEdges', cursor: string, node?: { __typename: 'Services', id: string, title: string, description?: string | null, date?: string | null, order?: number | null, image?: string | null, backgroundImage?: string | null, openLinksInNewTab?: boolean | null, body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
+export type ServicesConnectionQuery = { __typename?: 'Query', servicesConnection: { __typename?: 'ServicesConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'ServicesConnectionEdges', cursor: string, node?: { __typename: 'Services', id: string, title: string, description?: string | null, date?: string | null, order?: number | null, image?: string | null, backgroundImage?: string | null, openLinksInNewTab?: boolean | null, body?: any | null, backgroundColor?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
 
 export type ContactQueryVariables = Exact<{
   relativePath: Scalars['String']['input'];
@@ -1141,6 +1144,7 @@ export const ServicesPartsFragmentDoc = gql`
   backgroundImage
   openLinksInNewTab
   body
+  backgroundColor
 }
     `;
 export const ContactPartsFragmentDoc = gql`

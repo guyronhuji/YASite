@@ -119,7 +119,14 @@ function getCleanSlug(slug: string) {
             </h1>
             {
                 IntroContent && (
-                    <div class="mt-4 prose prose-indigo text-base-content max-w-none">
+                    <div
+                        class={`mt-4 prose prose-indigo text-base-content max-w-none ${collection === "services" ? "prose-lg text-gray-800 mx-auto lg:max-w-none leading-[1.75] p-8 rounded-xl shadow-sm" : ""}`}
+                        style={
+                            collection === "services"
+                                ? `background-color: ${sectionIntro?.data.backgroundColor || "#dde4ef"};`
+                                : ""
+                        }
+                    >
                         <IntroContent />
                     </div>
                 )
@@ -127,7 +134,7 @@ function getCleanSlug(slug: string) {
         </div>
 
         <div
-            class={`grid ${collection === "publications" ? "gap-1 lg:grid-cols-1" : "gap-8 lg:grid-cols-3 sm:grid-cols-2"}`}
+            class={`grid ${collection === "publications" ? "gap-1 lg:grid-cols-1" : "gap-8 lg:grid-cols-3 sm:grid-cols-2"} ${collection === "services" ? "hidden" : ""}`}
         >
             {
                 allItems.length === 0 && (

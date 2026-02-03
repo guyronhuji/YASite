@@ -314,6 +314,7 @@ type Services implements Node & Document {
   backgroundImage: String
   openLinksInNewTab: Boolean
   body: JSON
+  backgroundColor: String
   id: ID!
   _sys: SystemInfo!
   _values: JSON!
@@ -328,6 +329,7 @@ input ServicesFilter {
   backgroundImage: ImageFilter
   openLinksInNewTab: BooleanFilter
   body: RichTextFilter
+  backgroundColor: StringFilter
 }
 
 type ServicesConnectionEdges {
@@ -540,6 +542,7 @@ input ServicesMutation {
   backgroundImage: String
   openLinksInNewTab: Boolean
   body: JSON
+  backgroundColor: String
 }
 
 input ContactMutation {

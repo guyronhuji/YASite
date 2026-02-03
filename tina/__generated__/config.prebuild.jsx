@@ -104,8 +104,15 @@ var config_default = defineConfig({
         label: "Research Services",
         path: "src/content/services",
         format: "md",
-        fields: commonFields,
+        fields: [
+          ...commonFields,
+          { type: "string", name: "backgroundColor", label: "Background Color", ui: { component: "color" } }
+        ],
         ui: {
+          allowedActions: {
+            create: false,
+            delete: false
+          },
           // @ts-ignore
           itemProps: (item) => {
             return { label: item?.data?.order ? `${item.data.order}. ${item.data.title}` : item?.data?.title };
