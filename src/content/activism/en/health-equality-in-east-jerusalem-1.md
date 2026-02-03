@@ -15,7 +15,7 @@ The mode of provision of community healthcare services in East Jerusalem, which 
 
 # Forum Partners
 
-* [The Intercultural Center for Jerusalem ](https://jicc.org.il/about/)
+* [The Intercultural Center for Jerusalem ](https://jicc.org.il/about/) 
 * [Ataa Center](https://www.attaacenter.org/about-attaa/)
 * [Ir Amim](https://ir-amim.org.il/en/)
 * [Physicians for Human Rights–Israel](https://www.phr.org.il/en/)
@@ -56,3 +56,7 @@ It is into this vacuum that the Forum enters, with the aim of acting and leading
 [https://www.mako.co.il/health-magazine/Article-e230e6398f00a91027.htm](https://www.mako.co.il/health-magazine/Article-e230e6398f00a91027.htm)
 
 [https://www.shomrim.news/hebrew/east-jerusalem-health-crisis](https://www.shomrim.news/hebrew/east-jerusalem-health-crisis)
+
+[https://www.haaretz.co.il/news/local/2022-03-06/ty-article/.premium/0000017f-f5eb-ddde-abff-fdef699a0000](https://www.haaretz.co.il/news/local/2022-03-06/ty-article/.premium/0000017f-f5eb-ddde-abff-fdef699a0000)
+
+[https://www.acri.org.il/post/\_1289](https://www.acri.org.il/post/_1289)
