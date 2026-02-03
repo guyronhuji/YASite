@@ -5,15 +5,15 @@ image: /uploads/Untitled.jpg
 openLinksInNewTab: true
 ---
 
-# Background and Vision
+## Background and Vision
 
 The Forum is an inter-organizational coalition (not a registered NGO in itself) whose vision is to reduce the pronounced health inequalities between East and West Jerusalem. The Forum was established in 2021 by Dr. Yael Assor (The Hebrew University of Jerusalem). Its members include organizations working in East Jerusalem and East Jerusalemite activists engaged with issues of community health. The Forum was founded in the wake of an exploratory study conducted by Dr. Assor between 2019–2020, aimed at mapping barriers to health in East Jerusalem’s community. This study identified two central barriers: Low levels of health literacy among residents, namely insufficient knowledge regarding health-related behaviors and medical rights.
 
 The mode of provision of community healthcare services in East Jerusalem, which relies heavily on clinic branches operated through outsourcing or concession arrangements (“initiatives” in the Ministry of Health’s terminology; “providers” according to Maccabi Healthcare Services; “partners” according to Clalit Health Services). In all cases, these refer to private operators who run HMO clinics on a contractual basis as profit-seeking usinesses. The dominance of concessionaires is a key factor in producing health inequalities in East Jerusalem, and the need to reduce their role has also been recognized in the Government Five-Year Plans for East Jerusalem (2018–2023; 2023–2028). Research conducted by the Jerusalem Institute for Policy Research likewise identifies the concession model as a central contributor to these gaps.
 
-## [Read here the Forum's recent report on health gaps in East Jerusalem ](https://funint.page/PDFs/FOIEastJ.pdf)
+### [Read here the Forum's recent report on health gaps in East Jerusalem ](https://funint.page/PDFs/FOIEastJ.pdf)
 
-# Forum Partners
+## Forum Partners
 
 * [The Intercultural Center for Jerusalem ](https://jicc.org.il/about/) 
 * [Ataa Center](https://www.attaacenter.org/about-attaa/)
@@ -25,7 +25,7 @@ The mode of provision of community healthcare services in East Jerusalem, which 
 
 In addition, several physicians have joined the Forum, as well as a number of East Jerusalemite women activists who are engaged in community health. At their request, their names and personal details remain anonymous.
 
-# Rationale
+## Rationale
 
 The health-related needs of East Jerusalem residents are immense. At the same time, the barriers to realizing the right to health—understood as both the right to receive adequate care (directly and not through concessionaires) and the right to live in an environment supportive of a healthy lifestyle—are even greater and more diverse.Apart from the Forum, there is currently no single professional body that simultaneously addresses needs, barriers, and the linkages between:
 
@@ -41,7 +41,7 @@ It is into this vacuum that the Forum enters, with the aim of acting and leading
 
 #
 
-# Forum Activities
+## Forum Activities
 
 * Ongoing dialogue with the Planning Administration of the Ministry of Health
 * The Forum serves as an advisory body regarding improvements to the Ministry’s activity in East Jerusalem, with an emphasis on strengthening inspection and supervision of HMOs.
@@ -51,7 +51,7 @@ It is into this vacuum that the Forum enters, with the aim of acting and leading
 * In partnership with the Association for Civil Rights in Israel, the Forum collects and analyzes information obtained through Freedom of Information petitions submitted to HMOs, in preparation for filing two High Court of Justice petitions concerning the Ministry of Health’s responsibility for the operation of the concession model and the lack of sufficient oversight.
 * Alongside these activities, the Forum weaves a network of relationships and collaborations—some entirely new, others significantly strengthened—among member organizations and between them and additional experts and activists working in the fields of health and East Jerusalem.
 
-# In the Press
+## In the Press
 
 [https://www.mako.co.il/health-magazine/Article-e230e6398f00a91027.htm](https://www.mako.co.il/health-magazine/Article-e230e6398f00a91027.htm)
 
