@@ -1,5 +1,5 @@
 ---
-title: מעורבות ציבורית
-description: "פעילות ציבורית ומעורבות בקהילה."
+title: הסברה ומעורבות ציבורית
+image: ''
 backgroundImage: /uploads/Teaching.JPG
 ---

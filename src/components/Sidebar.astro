@@ -1,156 +1,198 @@
 ---
 const { lang, hasBackground = false } = Astro.props;
-import { fade } from 'astro:transitions';
+import { fade } from "astro:transitions";
 const t = {
   en: {
-    bio: 'Bio',
-    cv: 'CV',
-    research: 'Research',
-    activism: 'Activism',
-    outreach: 'Outreach and Public Engagement',
-    publications: 'Publications',
-    services: 'Research Services',
-    contact: 'Contact',
-    title: 'Dr. Yael Assor' // Default title
+    bio: "Bio",
+    cv: "CV",
+    research: "Research",
+    activism: "Activism",
+    outreach: "Outreach and Public Engagement",
+    publications: "Publications",
+    services: "Research Services",
+    contact: "Contact",
+    title: "Dr. Yael Assor", // Default title
   },
   he: {
-    bio: 'אודות',
-    cv: 'קורות חיים',
-    research: 'מחקר',
-    activism: 'אקטיביזם',
-    outreach: 'מעורבות ציבורית',
-    publications: 'פרסומים',
-    services: 'שירותי מחקר',
-    contact: 'צרו קשר',
-    title: 'ד״ר יעל שם-משפחה'
+    bio: "אודות",
+    cv: "קורות חיים",
+    research: "מחקר",
+    activism: "אקטיביזם",
+    outreach: "מעורבות ציבורית",
+    publications: "פרסומים",
+    services: "שירותי מחקר",
+    contact: "צרו קשר",
+    title: "ד״ר יעל שם-משפחה",
   },
   ar: {
-    bio: 'نبذة',
-    cv: 'السيرة الذاتية',
-    research: 'الأبحاث',
-    activism: 'النشاط',
-    outreach: 'التوعية',
-    publications: 'المنشورات',
-    services: 'الخدمات البحثية',
-    contact: 'اتصل بنا',
-    title: 'د. ياعيل اسم العائلة'
-  }
+    bio: "نبذة",
+    cv: "السيرة الذاتية",
+    research: "الأبحاث",
+    activism: "النشاط",
+    outreach: "التوعية",
+    publications: "المنشورات",
+    services: "الخدمات البحثية",
+    contact: "اتصل بنا",
+    title: "د. ياعيل اسم العائلة",
+  },
 };
 
 const labels = t[lang] || t.en;
 
-import { getEntry } from 'astro:content';
+import { getEntry } from "astro:content";
 // Try to get profile details from bio
-let profileImage = '/uploads/1.png'; // Default
+let profileImage = "/uploads/1.png"; // Default
 let profileTitle = labels.title;
-let profileRole = 'Senior Researcher';
+let profileRole = "Senior Researcher";
 
 try {
-    const bio = await getEntry('bio', lang);
-    if (bio?.data) {
-        if (bio.data.image) profileImage = bio.data.image;
-        if (bio.data.title) profileTitle = bio.data.title;
-        if (bio.data.role) profileRole = bio.data.role;
-    }
+  const bio = await getEntry("bio", lang);
+  if (bio?.data) {
+    if (bio.data.image) profileImage = bio.data.image;
+    if (bio.data.title) profileTitle = bio.data.title;
+    if (bio.data.role) profileRole = bio.data.role;
+  }
 } catch (e) {}
 
 // Dynamic Label Fetching
-const collectionKeys = ['research', 'activism', 'outreach', 'services', 'publications', 'cv'];
+const collectionKeys = [
+  "research",
+  "activism",
+  "outreach",
+  "services",
+  "publications",
+  "cv",
+];
 for (const key of collectionKeys) {
-    try {
-         // Try finding an index page (e.g. outreach/en/index)
-         const indexEntry = await getEntry(key as any, `${lang}/index`);
-         if (indexEntry?.data?.title) {
-             labels[key] = indexEntry.data.title;
-         } else {
-             // Try finding a direct page (e.g. cv/en)
-             const directEntry = await getEntry(key as any, lang);
-             if (directEntry?.data?.title) {
-                 labels[key] = directEntry.data.title;
-             } else if (key === 'cv') {
-                 // Special check for CV which might be he/main
-                  const mainEntry = await getEntry(key as any, `${lang}/main`);
-                  if (mainEntry?.data?.title) labels[key] = mainEntry.data.title;
-             }
-         }
-    } catch (e) {}
+  try {
+    // Try finding an index page (e.g. outreach/en/index)
+    const indexEntry = await getEntry(key as any, `${lang}/index`);
+    if (indexEntry?.data?.title) {
+      labels[key] = indexEntry.data.title;
+    } else {
+      // Try finding a direct page (e.g. cv/en)
+      const directEntry = await getEntry(key as any, lang);
+      if (directEntry?.data?.title) {
+        labels[key] = directEntry.data.title;
+      } else if (key === "cv") {
+        // Special check for CV which might be he/main
+        const mainEntry = await getEntry(key as any, `${lang}/main`);
+        if (mainEntry?.data?.title) labels[key] = mainEntry.data.title;
+      }
+    }
+  } catch (e) {}
 }
 
 const links = [
-  { href: `/${lang}`, label: labels.bio, icon: 'home' },
-  { href: `/${lang}/cv`, label: labels.cv, icon: 'document-text' },
-  { href: `/${lang}/research`, label: labels.research, icon: 'academic-cap' },
-  { href: `/${lang}/activism`, label: labels.activism, icon: 'speakerphone' },
-  { href: `/${lang}/outreach`, label: labels.outreach, icon: 'users' },
-  { href: `/${lang}/publications`, label: labels.publications, icon: 'book-open' },
-  { href: `/${lang}/services`, label: labels.services, icon: 'briefcase' },
-  { href: `/${lang}/contact`, label: labels.contact, icon: 'mail' },
+  { href: `/${lang}`, label: labels.bio, icon: "home" },
+  { href: `/${lang}/cv`, label: labels.cv, icon: "document-text" },
+  { href: `/${lang}/research`, label: labels.research, icon: "academic-cap" },
+  { href: `/${lang}/activism`, label: labels.activism, icon: "speakerphone" },
+  { href: `/${lang}/outreach`, label: labels.outreach, icon: "users" },
+  {
+    href: `/${lang}/publications`,
+    label: labels.publications,
+    icon: "book-open",
+  },
+  { href: `/${lang}/services`, label: labels.services, icon: "briefcase" },
+  { href: `/${lang}/contact`, label: labels.contact, icon: "mail" },
 ];
 
 const locales = [
-    { code: 'en', label: 'En' },
-    { code: 'he', label: 'עב' },
-    { code: 'ar', label: 'عربي' }
+  { code: "en", label: "En" },
+  { code: "he", label: "עב" },
+  { code: "ar", label: "عربي" },
 ];
 ---
 
 <div class="drawer lg:drawer-open">
   <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
-  <div class={`drawer-content flex flex-col p-4 md:p-10 min-h-screen ${hasBackground ? 'bg-transparent' : 'bg-base-100'}`}>
+  <div
+    class={`drawer-content flex flex-col p-4 md:p-10 min-h-screen ${hasBackground ? "bg-transparent" : "bg-base-100"}`}
+  >
     <!-- Page Content -->
-    <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden mb-4">Menu</label>
+    <label
+      for="my-drawer-2"
+      class="btn btn-primary drawer-button lg:hidden mb-4">Menu</label
+    >
     <div class="max-w-4xl mx-auto w-full">
-         <div class="flex justify-end gap-2 mb-4">
-             {locales.map(locale => (
-                <a href={`/${locale.code}`} class={`btn btn-xs ${lang === locale.code ? 'btn-primary' : 'btn-ghost'}`}>
-                    {locale.label}
-                </a>
-             ))}
-         </div>
-        <div transition:animate={fade({ duration: '1s' })}>
-            <slot />
-        </div>
-    </div>
-  </div> 
-  <div class="drawer-side z-50">
-    <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label> 
-    <ul class="menu p-4 w-64 min-h-full bg-[#000040] text-white border-r border-gray-900/10">
-      <!-- Sidebar content here -->
-      <div class="mb-6 text-center">
-        <div class="avatar">
-           <div class="w-24 rounded-full ring ring-white ring-offset-primary ring-offset-2">
-             <img src={profileImage} alt="Profile" class="object-cover object-top" />
-           </div>
-        </div>
-        <h2 class="mt-4 font-serif font-bold text-lg text-white">{profileTitle}</h2>
-        <p class="text-sm text-white/80">{profileRole}</p>
+      <div class="flex justify-end gap-2 mb-4">
+        {
+          locales.map((locale) => (
+            <a
+              href={`/${locale.code}`}
+              class={`btn btn-xs ${lang === locale.code ? "btn-primary" : "btn-ghost"}`}
+            >
+              {locale.label}
+            </a>
+          ))
+        }
       </div>
-      
-      {links.map(link => {
+      <div transition:animate={fade({ duration: "1s" })}>
+        <slot />
+      </div>
+    </div>
+  </div>
+  <div class="drawer-side z-50">
+    <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"
+    ></label>
+    <ul
+      class="menu p-4 w-64 min-h-full bg-[#000040] text-white border-r border-gray-900/10"
+    >
+      <!-- Sidebar content here -->
+      <a
+        href={`/${lang}`}
+        class="group block mb-6 text-center hover:opacity-90 transition-opacity"
+      >
+        <div class="avatar">
+          <div
+            class="w-24 rounded-full ring ring-white ring-offset-primary ring-offset-2 group-hover:ring-[#97B4D6] transition-all"
+          >
+            <img
+              src={profileImage}
+              alt="Profile"
+              class="object-cover object-top"
+            />
+          </div>
+        </div>
+        <h2
+          class="mt-4 font-serif font-bold text-lg text-white group-hover:text-[#97B4D6] transition-colors"
+        >
+          {profileTitle}
+        </h2>
+        <p class="text-sm text-white/80">{profileRole}</p>
+      </a>
+
+      {
+        links.map((link) => {
           const currentPath = Astro.url.pathname;
           // Active if exact match OR starts with href (except for homepage which must be exact)
-          const isActive = link.href === `/${lang}` 
-              ? currentPath === link.href 
+          const isActive =
+            link.href === `/${lang}`
+              ? currentPath === link.href
               : currentPath.startsWith(link.href);
-          
+
           return (
             <li>
-                <a href={link.href} 
-                   class={`text-lg mb-1 rounded-none px-4 py-2 transition-colors duration-200 
-                   ${isActive 
-                        ? 'font-bold bg-gray-100 text-[#000040] border-l-4 border-[#97B4D6]' 
-                        : 'text-white hover:bg-white/25 border-l-4 border-transparent'
-                    }`}>
-                    {link.label}
-                </a>
+              <a
+                href={link.href}
+                class={`text-lg mb-1 rounded-none px-4 py-2 transition-colors duration-200 
+                   ${
+                     isActive
+                       ? "font-bold bg-gray-100 text-[#000040] border-l-4 border-[#97B4D6]"
+                       : "text-white hover:bg-white/25 border-l-4 border-transparent"
+                   }`}
+              >
+                {link.label}
+              </a>
             </li>
           );
-      })}
-      
+        })
+      }
+
       <div class="mt-auto pt-2 text-xs text-white/50 text-center">
-         &copy; {new Date().getFullYear()} Yael Assor
+        &copy; {new Date().getFullYear()} Yael Assor
       </div>
     </ul>
-  
   </div>
 </div>
