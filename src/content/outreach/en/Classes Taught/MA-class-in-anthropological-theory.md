@@ -1,5 +1,5 @@
 ---
-title: MA class in anthropological theory
+title: Introduction to Medical Anthropology
 openLinksInNewTab: true
 ---
 
