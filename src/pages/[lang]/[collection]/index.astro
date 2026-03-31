@@ -70,6 +70,13 @@ if (introEntryIndex !== -1) {
     allItems.splice(introEntryIndex, 1);
 }
 
+// Publications in he/ar: en/index.md is fetched for the background image but
+// must not appear as a publication entry — remove it from the list.
+if (col === "publications" && lang !== "en") {
+    const enIndexIdx = allItems.findIndex((item) => item.id === "en/index.md");
+    if (enIndexIdx !== -1) allItems.splice(enIndexIdx, 1);
+}
+
 // Sort items — access only fields present in both schemas via SortableData
 allItems.sort((a, b) => {
     const aData = a.data as SortableData;
