@@ -111,6 +111,10 @@ function getCleanSlug(slug: string) {
     const parts = slug.split("/");
     return parts.length > 1 ? parts.slice(1).join("/") : slug;
 }
+
+type DisplayNode =
+    | { type: "folder"; title: string; link: string; image?: string }
+    | { type: "file"; item: (typeof allItems)[0]; link: string };
 ---
 
 <Layout
@@ -181,10 +185,6 @@ function getCleanSlug(slug: string) {
                 )}
 
                 {(() => {
-                    type DisplayNode =
-                        | { type: "folder"; title: string; link: string; image?: string }
-                        | { type: "file"; item: (typeof allItems)[0]; link: string };
-
                     const displayedItems: DisplayNode[] = [];
                     const processedFolders = new Set<string>();
                     const folderMetadata = new Map<string, (typeof allItems)[0]>();
