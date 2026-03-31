@@ -206,9 +206,9 @@ if (col !== "publications") {
                             <span class="text-xl font-bold text-[#000040] font-serif w-14 shrink-0 tabular-nums">{year}</span>
                             <div class="flex-1 h-px bg-gray-200" />
                         </div>
-                        <div class="space-y-5 ps-[4.5rem]">
+                        <div class="space-y-3 ps-[4.5rem]">
                             {pubsByYear[year].map((item) => (
-                                <div class="pb-5 border-b border-gray-100 last:border-0">
+                                <div class="bg-white/80 rounded-lg px-5 py-4 shadow-sm border border-gray-100">
                                     <h2 class="text-base font-semibold text-[#000040] font-serif leading-snug">
                                         {item.data.url ? (
                                             <a href={item.data.url} target="_blank" rel="noopener noreferrer" class="hover:underline">
