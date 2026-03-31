@@ -400,8 +400,38 @@ const backLink = parentSlug
             })}
           </div>
         </div>
+      ) : collection === "publications" ? (
+        // Publications: redirect to external URL if available, otherwise show citation
+        <div class="max-w-2xl">
+          {itemAny.data.url && (
+            <script define:vars={{ redirectUrl: itemAny.data.url }}>
+              window.location.href = redirectUrl;
+            </script>
+          )}
+          <h1 class="text-2xl font-bold text-[#000040] font-serif leading-snug mb-4">
+            {itemAny.data.title}
+          </h1>
+          <div class="space-y-1 text-gray-600">
+            {itemAny.data.authors && <p>{itemAny.data.authors.join(", ")}</p>}
+            {itemAny.data.venue && <p class="italic">{itemAny.data.venue}</p>}
+            {itemAny.data.year && <p class="text-gray-400">{itemAny.data.year}</p>}
+          </div>
+          {itemAny.data.url && (
+            <a
+              href={itemAny.data.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center mt-6 px-4 py-2 bg-[#000040] text-white text-sm font-medium rounded-lg hover:bg-[#000060] transition-colors gap-2"
+            >
+              View paper
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+              </svg>
+            </a>
+          )}
+        </div>
       ) : (
-        <article class="prose prose-lg prose-indigo mx-auto text-gray-800 max-w-none leading-[1.75]">
+        <article class="prose prose-lg prose-indigo mx-auto text-gray-800 max-w-3xl leading-[1.75]">
           <h1 class="text-[#000040] font-extrabold font-serif">
             {itemAny.data.title}
           </h1>
