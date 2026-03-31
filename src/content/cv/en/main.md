@@ -25,6 +25,7 @@ backgroundImage: /uploads/WhatsApp Image 2026-01-03 at 22.09.06.jpeg
 
 ## Academic Appointments
 
+* **2026** — Assistant Professor, Dept. of Sociology and Anthropology, Hebrew University of Jerusalem
 * **2022–2026** — Martin Buber Society of Fellows, Hebrew University of Jerusalem
 * **2022–2024** — Postdoctoral Fellow (ISF Postdoctoral Research Grant),\
   Department of Health Policy and Management, Ben Gurion University
