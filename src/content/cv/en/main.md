@@ -5,19 +5,19 @@ date: 2024-01-01T00:00:00.000Z
 backgroundImage: /uploads/WhatsApp Image 2026-01-03 at 22.09.06.jpeg
 ---
 
-# Education
+## Education
 
-## Ph.D. in Anthropology
+### Ph.D. in Anthropology
 
 **UCLA**, December 18, 2020
 
 * **Dissertation:** *Objectivity as a Bureaucratic Virtue: The Lived Experience of Objectivity in an Israeli Medical Bureaucracy*
 
-## M.A. in Sociology and Anthropology
+### M.A. in Sociology and Anthropology
 
 **Hebrew University of Jerusalem**, 2013 — *Summa Cum Laude*
 
-## B.A. in Sociology–Anthropology and Psychology
+### B.A. in Sociology–Anthropology and Psychology
 
 **Hebrew University of Jerusalem**, 2009 — *Cum Laude*
 
