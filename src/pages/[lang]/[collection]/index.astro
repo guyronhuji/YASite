@@ -47,9 +47,13 @@ const { lang, collection } = Astro.params;
 const col = collection as SupportedCollection;
 
 // Get items — typed as the union of all supported collection entries
+// For publications: fetch en/ items (the actual publications) plus the
+// current lang's index.md so the section intro/background image is available.
 const allItems = await getCollection(col, (entry) => {
     const { id } = entry;
-    if (col === "publications") return id.startsWith("en/");
+    if (col === "publications") {
+        return id.startsWith("en/") || id === `${lang}/index.md`;
+    }
     return id.startsWith(lang + "/");
 });
 
