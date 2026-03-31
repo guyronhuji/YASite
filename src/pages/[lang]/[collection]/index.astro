@@ -112,9 +112,71 @@ function getCleanSlug(slug: string) {
     return parts.length > 1 ? parts.slice(1).join("/") : slug;
 }
 
+type NonPubItem = (typeof allItems)[0];
+
 type DisplayNode =
     | { type: "folder"; title: string; link: string; image?: string }
-    | { type: "file"; item: (typeof allItems)[0]; link: string };
+    | { type: "file"; title: string; link: string; description?: string; image?: string };
+
+// Build displayedItems in frontmatter so the template stays JSX-clean (no IIFEs, no casts)
+const displayedItems: DisplayNode[] = [];
+if (col !== "publications") {
+    const processedFolders = new Set<string>();
+    const folderMetadata = new Map<string, NonPubItem>();
+
+    for (const item of allItems) {
+        if (item.id.endsWith("/index.md")) {
+            const cleanSlug = getCleanSlug(item.slug);
+            const folderName = cleanSlug.endsWith("/index")
+                ? cleanSlug.replace(/\/index$/, "")
+                : cleanSlug;
+            folderMetadata.set(folderName, item);
+        }
+    }
+
+    for (const item of allItems) {
+        const cleanSlug = getCleanSlug(item.slug);
+        const parts = cleanSlug.split("/");
+        const isIndexFile = item.id.endsWith("/index.md");
+
+        let folderName: string | null = null;
+        if (parts.length > 1) {
+            folderName = parts[0];
+        } else if (isIndexFile) {
+            folderName = cleanSlug.endsWith("/index")
+                ? cleanSlug.replace(/\/index$/, "")
+                : cleanSlug;
+        }
+
+        if (folderName) {
+            if (!processedFolders.has(folderName)) {
+                processedFolders.add(folderName);
+                const fi = folderMetadata.get(folderName);
+                const fiData: CommonData | undefined = fi?.data as CommonData | undefined;
+                const folderTitle =
+                    fiData?.title && fiData.title.toLowerCase() !== "index"
+                        ? fiData.title
+                        : folderName.charAt(0).toUpperCase() + folderName.slice(1).replace(/-/g, " ");
+                displayedItems.push({
+                    type: "folder",
+                    title: folderTitle,
+                    link: `/${lang}/${col}/${folderName}`,
+                    image: fiData?.image ?? fiData?.backgroundImage,
+                });
+            }
+            if (isIndexFile) continue;
+        } else {
+            const d: CommonData = item.data as CommonData;
+            displayedItems.push({
+                type: "file",
+                title: d.title,
+                link: `/${lang}/${col}/${cleanSlug}`,
+                description: d.description ?? (item.body ? item.body.substring(0, 100) + "..." : undefined),
+                image: d.image,
+            });
+        }
+    }
+}
 ---
 
 <Layout
@@ -136,8 +198,7 @@ type DisplayNode =
             )}
         </div>
 
-        {/* Publications: year-grouped bibliography */}
-        {col === "publications" && (
+        {col === "publications" ? (
             <div class="space-y-10 max-w-3xl">
                 {sortedPubYears.map(year => (
                     <div>
@@ -175,126 +236,61 @@ type DisplayNode =
                     </div>
                 ))}
             </div>
-        )}
-
-        {/* All other collections: card grid */}
-        {col !== "publications" && (
+        ) : (
             <div class={`grid gap-8 ${col === "services" ? "hidden" : "lg:grid-cols-3 sm:grid-cols-2"}`}>
                 {allItems.length === 0 && (
                     <p class="text-gray-500 italic col-span-full">{noContentLabel}</p>
                 )}
 
-                {(() => {
-                    const displayedItems: DisplayNode[] = [];
-                    const processedFolders = new Set<string>();
-                    const folderMetadata = new Map<string, (typeof allItems)[0]>();
-
-                    for (const item of allItems) {
-                        if (item.id.endsWith("/index.md")) {
-                            const cleanSlug = getCleanSlug(item.slug);
-                            const folderName = cleanSlug.endsWith("/index")
-                                ? cleanSlug.replace(/\/index$/, "")
-                                : cleanSlug;
-                            folderMetadata.set(folderName, item);
-                        }
-                    }
-
-                    for (const item of allItems) {
-                        const cleanSlug = getCleanSlug(item.slug);
-                        const parts = cleanSlug.split("/");
-                        const isIndexFile = item.id.endsWith("/index.md");
-
-                        let folderName: string | null = null;
-                        if (parts.length > 1) {
-                            folderName = parts[0];
-                        } else if (isIndexFile) {
-                            folderName = cleanSlug.endsWith("/index")
-                                ? cleanSlug.replace(/\/index$/, "")
-                                : cleanSlug;
-                        }
-
-                        if (folderName) {
-                            if (!processedFolders.has(folderName)) {
-                                processedFolders.add(folderName);
-                                const fi = folderMetadata.get(folderName);
-                                const fiData = fi?.data as CommonData | undefined;
-                                const folderTitle = (fiData?.title && fiData.title.toLowerCase() !== "index")
-                                    ? fiData.title
-                                    : folderName.charAt(0).toUpperCase() + folderName.slice(1).replace(/-/g, " ");
-                                displayedItems.push({
-                                    type: "folder",
-                                    title: folderTitle,
-                                    link: `/${lang}/${col}/${folderName}`,
-                                    image: fiData?.image ?? fiData?.backgroundImage,
-                                });
-                            }
-                            if (isIndexFile) continue;
-                        } else {
-                            displayedItems.push({ type: "file", item, link: `/${lang}/${col}/${cleanSlug}` });
-                        }
-                    }
-
-                    return displayedItems.map((node) => {
-                        if (node.type === "folder") {
-                            return (
-                                <a href={node.link} class={`group block bg-gray-50 border border-gray-200 rounded-lg hover:bg-white hover:shadow-lg transition-all duration-300 overflow-hidden ${node.image ? "p-0" : "p-6"}`}>
-                                    {node.image ? (
-                                        <div class="aspect-w-16 aspect-h-9 bg-gray-100 group-hover:opacity-95 transition-opacity">
-                                            <img src={node.image} alt={node.title} class="w-full h-48 object-cover" />
-                                            <div class="p-6">
-                                                <h2 class="text-xl font-bold font-serif text-[#000040]">{node.title}</h2>
-                                            </div>
-                                        </div>
-                                    ) : (
-                                        <div class="flex items-center text-[#000040]">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 me-4 text-indigo-300 group-hover:text-indigo-500 transition-colors" viewBox="0 0 20 20" fill="currentColor">
-                                                <path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" />
-                                            </svg>
-                                            <h2 class="text-xl font-bold font-serif">{node.title}</h2>
-                                        </div>
-                                    )}
-                                </a>
-                            );
-                        }
-
-                        const { item, link } = node;
-                        const d = item.data as CommonData;
-
-                        return (
-                            <article class="bg-white transition-all duration-300 rounded-lg group shadow-sm hover:shadow-xl hover:-translate-y-1 border border-gray-100 overflow-hidden flex flex-col">
-                                <a href={link} class="block overflow-hidden relative">
-                                    {d.image ? (
-                                        <div class="aspect-w-16 aspect-h-9 bg-gray-100 group-hover:opacity-95 transition-opacity">
-                                            <img src={d.image} alt={d.title} class="w-full h-48 object-cover" />
-                                        </div>
-                                    ) : (
-                                        <div class="h-48 bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center text-slate-300 border-b border-gray-100 group-hover:bg-slate-100 transition-colors">
-                                            <svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                            </svg>
-                                        </div>
-                                    )}
-                                </a>
-                                <div class="p-6 flex flex-col flex-grow">
-                                    <h2 class="text-xl font-bold text-[#000040] mb-2 font-serif">
-                                        <a href={link}>{d.title}</a>
-                                    </h2>
-                                    {(() => {
-                                        const summary = d.description ?? (item.body ? item.body.substring(0, 100) + "..." : null);
-                                        return summary ? (
-                                            <p class="text-gray-600 mb-4 line-clamp-3 text-lg flex-grow leading-relaxed">{summary}</p>
-                                        ) : null;
-                                    })()}
-                                    <div class="mt-auto pt-4 border-t border-gray-50 flex justify-between items-center text-sm">
-                                        <a href={link} class="text-indigo-600 font-medium hover:text-indigo-500">{readMoreLabel}</a>
-                                        <span class="text-gray-300">&rarr;</span>
-                                    </div>
+                {displayedItems.map((node) => node.type === "folder" ? (
+                    <a href={node.link} class={`group block bg-gray-50 border border-gray-200 rounded-lg hover:bg-white hover:shadow-lg transition-all duration-300 overflow-hidden ${node.image ? "p-0" : "p-6"}`}>
+                        {node.image ? (
+                            <div class="aspect-w-16 aspect-h-9 bg-gray-100 group-hover:opacity-95 transition-opacity">
+                                <img src={node.image} alt={node.title} class="w-full h-48 object-cover" />
+                                <div class="p-6">
+                                    <h2 class="text-xl font-bold font-serif text-[#000040]">{node.title}</h2>
                                 </div>
-                            </article>
-                        );
-                    });
-                })()}
+                            </div>
+                        ) : (
+                            <div class="flex items-center text-[#000040]">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 me-4 text-indigo-300 group-hover:text-indigo-500 transition-colors" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" />
+                                </svg>
+                                <h2 class="text-xl font-bold font-serif">{node.title}</h2>
+                            </div>
+                        )}
+                    </a>
+                ) : (
+                    <article class="bg-white transition-all duration-300 rounded-lg group shadow-sm hover:shadow-xl hover:-translate-y-1 border border-gray-100 overflow-hidden flex flex-col">
+                        <a href={node.link} class="block overflow-hidden relative">
+                            {node.image ? (
+                                <div class="aspect-w-16 aspect-h-9 bg-gray-100 group-hover:opacity-95 transition-opacity">
+                                    <img src={node.image} alt={node.title} class="w-full h-48 object-cover" />
+                                </div>
+                            ) : (
+                                <div class="h-48 bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center text-slate-300 border-b border-gray-100 group-hover:bg-slate-100 transition-colors">
+                                    <svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                    </svg>
+                                </div>
+                            )}
+                        </a>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h2 class="text-xl font-bold text-[#000040] mb-2 font-serif">
+                                <a href={node.link}>{node.title}</a>
+                            </h2>
+                            {node.description && (
+                                <p class="text-gray-600 mb-4 line-clamp-3 text-lg flex-grow leading-relaxed">{node.description}</p>
+                            )}
+                            <div class="mt-auto pt-4 border-t border-gray-50 flex justify-between items-center text-sm">
+                                <a href={node.link} class="text-indigo-600 font-medium hover:text-indigo-500">{readMoreLabel}</a>
+                                <span class="text-gray-300">&rarr;</span>
+                            </div>
+                        </div>
+                    </article>
+                ))}
             </div>
         )}
     </main>
 </Layout>
+
