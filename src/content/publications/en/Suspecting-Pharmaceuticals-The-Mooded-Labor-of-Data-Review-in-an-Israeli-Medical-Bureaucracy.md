@@ -1,0 +1,16 @@
+---
+title: 'Suspecting Pharmaceuticals: The Mooded Labor of Data Review in an Israeli Medical Bureaucracy'
+venue: Social Analysis
+year: 2025
+url: 'https://www.berghahnjournals.com/view/journals/social-analysis/69/4/sa690403.xml?ArticleBodyColorStyles=full-text'
+---
+
+This article expands our understanding of data review by foregrounding the affective labor it entails. Based on 18 months of ethnographic research with Israeli medical bureaucrats, I examine how they transform dubious pharmaceutical trial data into 'trustworthy enough' foundations for policy decisions. Preparing files for Israel's universal healthcare program, bureaucrats must rely on clinical trials they deem unreliable. Following this process, I highlight the pivotal role of a deliberately cultivated mood of suspicion. Grounded in phenomenological philosophy, I argue that suspicion is not merely a passive backdrop but an effortful achievement shaping how data is reviewed. This study demonstrates that data review involves not only analytical tasks but also the affective work of entering and sustaining the mooded state necessary for critical engagement.
+
+أن تشتبه في شركات الأدوية: المزاج التشكيكيّ وأثره في إجراءات التقييم ضمن البيروقراطية الطبية في إسرائيل
+
+تُوسّع هذه المقالة فهمنا لعمليات مراجعة الأبحاث والحُكم عليها من خلال التركيز على الجهد العاطفي المبذول فيها. بالاستناد إلى ثمانية عشر شهرًا من البحث الإثنوغرافي الذي أُجري بين أعضاء الفريق البيروقراطي المسؤول عن إعداد وثائق التقييم للجنة توسيع سلة الرعاية الصحية في إسرائيل، أدرس كيف تُحوّل النساء في هذا الفريق بيانات التجارب السريرية للأدوية، التي يعتبرنها مشكوكًا فيها، إلى أساس "موثوق بما فيه الكفاية" لاتخاذ القرارات السياسية. وكجزء من عملهن في إعداد ملفات التقييم لسلة الرعاية الصحية الوطنية، يُطلب من الفريق الاعتماد على تجارب سريرية يُقيّمنها بأنفسهن على أنها غير موثوقة. من خلال تتبع هذه العملية، أؤكد على الدور المحوري لحالة (mood) الشك المُتعمّدة. بالاستناد إلى الفلسفة الظاهراتية، أُجادل بأن الشك ليس مجرد خلفية سلبية لعملية المراجعة، بل هو إنجاز فعّال وجهد يُشكّل كيفية قراءة البيانات وتقييمها. تُظهر هذه الدراسة أن مراجعة البيانات لا تقتصر على المهام التحليلية فحسب، بل تشمل أيضًا جهدًا عاطفيًا يتمثل في الدخول في حالة ذهنية معينة والحفاظ عليها، وهي حالة ذهنية ضرورية للتفاعل النقدي مع البيانات.
+
+לחשוד בחברות הפארמה: מצב רוח חשדני והשפעתו על הליכי שיפוט בביורוקרטיה רפואית בישראל
+
+מאמר זה מרחיב את הבנתנו לגבי תהליכי סקירה ושיפוט של מחקרים באמצעות התמקדות בעבודת הרגש הכרוכה בהם. בהתבסס על שמונה־עשר חודשי מחקר אתנוגרפי בקרב הצוות הביורוקרטי האמון על הכנת מסמכי ההערכה עבור הוועדה להרחבת סל שירותי הבריאות בישראל, אני בוחנת כיצד נשות הצוות הזה הופכות נתוני ניסויים קליניים של תרופות, הנתפסים בעיניהן כמפוקפקים, לבסיס “אמין דיו” לקבלת החלטות מדיניות. במסגרת עבודתן בהכנת תיקי הערכה עבור סל הבריאות הממלכתי, נדרש הצוות להסתמך על ניסויים קליניים שהן עצמן מעריכות כבלתי מהימנים. מתוך מעקב אחר תהליך זה, אני מדגישה את תפקידה המרכזי של אווירה (mood) של חשד, אשר מטופחת במכוון. בהישענות על פילוסופיה פנומנולוגית, אני טוענת כי חשד אינו רק רקע פסיבי לפעולת הסקירה, אלא הישג פעיל הדורש מאמץ, המעצב את אופן קריאת הנתונים והערכתם. מחקר זה מראה כי סקירת נתונים אינה כוללת רק משימות אנליטיות, אלא גם עבודה רגשית של כניסה למצב רוח מסוים ושימורו, מצב רוח הנחוץ למעורבות ביקורתית בנתונים.
